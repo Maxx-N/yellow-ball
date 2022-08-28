@@ -4,51 +4,34 @@ import { ISet } from './set';
 
 export interface IGame {
   id: string;
-  setId: string;
   position: number;
+  playerGames: IPlayerGame[];
   getSet(allSets: ISet[]): ISet;
-  getPlayerGames(allPlayerGames: IPlayerGame[]): IPlayerGame[];
-  addPointToPlayer({
-    allPlayerGames,
-    player,
-  }: {
-    allPlayerGames: IPlayerGame[];
-    player: IPlayer;
-  }): void;
+  addPointToPlayer(player: IPlayer): void;
 }
 
 export class Game implements IGame {
   id: string;
-  setId: string;
   position: number;
+  playerGames: IPlayerGame[];
 
-  constructor({ set, position }: { set: ISet; position: number }) {
+  constructor({ position }: { position: number }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
-    this.setId = set.id;
     this.position = position;
+    this.playerGames = [];
   }
 
   getSet(allSets: ISet[]): ISet {
-    return allSets.find((set) => set.id === this.setId);
+    return allSets.find((set) => {
+      return set.games.map((game) => game.id).includes(this.id);
+    });
   }
 
-  getPlayerGames(allPlayerGames: IPlayerGame[]): IPlayerGame[] {
-    return allPlayerGames.filter((playerGame) => playerGame.gameId === this.id);
-  }
-
-  addPointToPlayer({
-    allPlayerGames,
-    player,
-  }: {
-    allPlayerGames: IPlayerGame[];
-    player: IPlayer;
-  }): void {
-    const playerGames = this.getPlayerGames(allPlayerGames);
-
-    const winningPointPlayerGame: IPlayerGame = playerGames.find(
+  addPointToPlayer(player: IPlayer): void {
+    const winningPointPlayerGame: IPlayerGame = this.playerGames.find(
       (playerGame) => playerGame.playerId === player.id
     );
-    const loserPointPlayerGame: IPlayerGame = playerGames.find(
+    const loserPointPlayerGame: IPlayerGame = this.playerGames.find(
       (playerGame) => playerGame.playerId !== player.id
     );
 

@@ -1,19 +1,18 @@
 import { IMatch } from './match';
-import { INationality, Nationality } from './nationality';
+import { INationality } from './nationality';
 
 export interface IPlayer {
   id: string;
-  nationalityId: string;
+  nationality: INationality;
   firstName: string;
   lastName: string;
   birthDate: Date;
   getMatches(allMatches: IMatch[]): IMatch[];
-  getNationality(allNationalities: INationality[]): INationality;
 }
 
 export class Player implements IPlayer {
   id: string;
-  nationalityId: string;
+  nationality: INationality;
   firstName: string;
   lastName: string;
   birthDate: Date;
@@ -30,19 +29,15 @@ export class Player implements IPlayer {
     birthDate?: Date;
   }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
-    this.nationalityId = nationality.id;
+    this.nationality = nationality;
     this.firstName = firstName;
     this.lastName = lastName;
     this.birthDate = birthDate ? birthDate : null;
   }
 
-  getNationality(allNationalities: Nationality[]): INationality {
-    return allNationalities.find(
-      (nationality) => nationality.id === this.nationalityId
-    );
-  }
-
   getMatches(allMatches: IMatch[]): IMatch[] {
-    return allMatches.filter((match) => match.playerIds.includes(this.id));
+    return allMatches.filter((match) => {
+      return match.players.map((player) => player.id).includes(this.id);
+    });
   }
 }

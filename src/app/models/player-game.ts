@@ -3,7 +3,6 @@ import { IPlayer } from './player';
 
 export interface IPlayerGame {
   id: string;
-  gameId: string;
   playerId: string;
   playerScore: '0' | '15' | '30' | '40' | 'A' | 'W';
   acesCount: number;
@@ -24,7 +23,6 @@ export interface IPlayerGame {
 
 export class PlayerGame implements IPlayerGame {
   id: string;
-  gameId: string;
   playerId: string;
   playerScore: '0' | '15' | '30' | '40' | 'A' | 'W';
   acesCount: number;
@@ -42,7 +40,6 @@ export class PlayerGame implements IPlayerGame {
 
   constructor({ game, player }: { game: IGame; player: IPlayer }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
-    this.gameId = game.id;
     this.playerId = player.id;
 
     this.playerScore = '0';
@@ -61,7 +58,11 @@ export class PlayerGame implements IPlayerGame {
   }
 
   getGame(allGames: IGame[]): IGame {
-    return allGames.find((game) => this.gameId === game.id);
+    return allGames.find((game) => {
+      return game.playerGames
+        .map((playerGame) => playerGame.id)
+        .includes(this.id);
+    });
   }
 
   getPlayer(allPlayers: IPlayer[]): IPlayer {

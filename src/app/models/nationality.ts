@@ -30,6 +30,8 @@ export class Nationality implements INationality {
   }
 
   getPlayers(allPlayers: IPlayer[]): IPlayer[] {
-    return allPlayers.filter((player) => player.nationalityId === this.id);
+    return allPlayers.filter((player) => {
+      return player.nationality.id === this.id;
+    });
   }
 }

@@ -3,18 +3,18 @@ import { ISet } from './set';
 
 export interface IMatch {
   id: string;
-  playerIds: string[];
-  abandonerId?: string;
+  players: IPlayer[];
+  abandoner?: IPlayer;
+  sets: ISet[];
   isFinalSetTiebreak: boolean;
   setsNumber: 3 | 5;
-  getSets(allSets: ISet[]): ISet[];
-  getPlayers(allPlayers: IPlayer[]): IPlayer[];
 }
 
 export class Match implements IMatch {
   id: string;
-  playerIds: string[];
-  abandonerId?: string;
+  players: IPlayer[];
+  abandoner?: IPlayer;
+  sets: ISet[];
   isFinalSetTiebreak: boolean;
   setsNumber: 3 | 5;
 
@@ -28,16 +28,9 @@ export class Match implements IMatch {
     setsNumber: 3 | 5;
   }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
-    this.playerIds = players.map((player) => player.id);
+    this.players = players;
+    this.sets = [];
     this.isFinalSetTiebreak = isFinalSetTiebreak;
     this.setsNumber = setsNumber;
-  }
-
-  getPlayers(allPlayers: IPlayer[]): IPlayer[] {
-    return allPlayers.filter((player) => this.playerIds.includes(player.id));
-  }
-
-  getSets(allSets: ISet[]): ISet[] {
-    return allSets.filter((set) => set.matchId === this.id);
   }
 }
