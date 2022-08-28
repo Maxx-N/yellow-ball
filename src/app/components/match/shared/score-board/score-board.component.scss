@@ -1,0 +1,11 @@
+table {
+  width: 100%;
+  text-align: center;
+
+  .mat-column-player-name {
+    border-right: 1px solid;
+  }
+  .mat-column-current-game {
+    border-left: 1px solid;
+  }
+}

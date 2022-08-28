@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
 
-const materialModules = [];
+const materialModules: any[] = [MatTableModule];
 
 @NgModule({
   imports: [...materialModules],
