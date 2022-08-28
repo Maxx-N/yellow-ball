@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,6 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatchStatsComponent } from './components/match/shared/match-stats/match-stats.component';
 import { NewMatchComponent } from './components/match/current-match/new-match/new-match.component';
 import { MaterialModule } from './material.module';
+
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { MaterialModule } from './material.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     MaterialModule,
+    FlexLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
