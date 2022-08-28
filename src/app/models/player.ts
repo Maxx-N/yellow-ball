@@ -24,7 +24,6 @@ export class Player implements IPlayer {
     lastName,
     birthDate,
   }: {
-    id: string;
     nationality: INationality;
     firstName: string;
     lastName: string;
