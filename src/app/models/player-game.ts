@@ -3,7 +3,7 @@ import { IPlayer } from './player';
 
 export interface IPlayerGame {
   id: string;
-  playerId: string;
+  player: IPlayer;
   playerScore: '0' | '15' | '30' | '40' | 'A' | 'W';
   acesCount: number;
   firstServesCount: number;
@@ -18,12 +18,11 @@ export interface IPlayerGame {
   breakPointsCount: number;
   breakPointConversionsCount: number;
   getGame(allGames: IGame[]): IGame;
-  getPlayer(allPlayers: IPlayer[]): IPlayer;
 }
 
 export class PlayerGame implements IPlayerGame {
   id: string;
-  playerId: string;
+  player: IPlayer;
   playerScore: '0' | '15' | '30' | '40' | 'A' | 'W';
   acesCount: number;
   firstServesCount: number;
@@ -38,9 +37,9 @@ export class PlayerGame implements IPlayerGame {
   breakPointsCount: number;
   breakPointConversionsCount: number;
 
-  constructor({ game, player }: { game: IGame; player: IPlayer }) {
+  constructor({ player }: { player: IPlayer }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
-    this.playerId = player.id;
+    this.player = player;
 
     this.playerScore = '0';
     this.acesCount = 0;
@@ -63,9 +62,5 @@ export class PlayerGame implements IPlayerGame {
         .map((playerGame) => playerGame.id)
         .includes(this.id);
     });
-  }
-
-  getPlayer(allPlayers: IPlayer[]): IPlayer {
-    return allPlayers.find((player) => this.playerId === player.id);
   }
 }

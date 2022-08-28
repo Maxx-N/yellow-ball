@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { INationality, Nationality } from 'src/app/models/nationality';
 import { IPlayer, Player } from 'src/app/models/player';
+import * as nationalityHelpers from 'src/app/helpers/nationality.helpers';
 
 @Injectable({
   providedIn: 'root',
@@ -42,8 +43,6 @@ export class PlayerService {
     }),
   ];
 
-  constructor() {}
-
   getPlayers(): IPlayer[] {
     return [...this.players];
   }
@@ -52,11 +51,13 @@ export class PlayerService {
     return [...this.nationalities];
   }
 
-  getNationalityByCode(code: string): INationality {
-    return {
-      ...this.getNationalities().find(
+  constructor() {}
+
+  private getNationalityByCode(code: string): INationality {
+    return nationalityHelpers.copyNationality(
+      this.getNationalities().find(
         (nationality) => nationality.code.toLowerCase() === code.toLowerCase()
-      ),
-    };
+      )
+    );
   }
 }

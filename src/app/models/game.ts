@@ -1,5 +1,5 @@
 import { IPlayer } from './player';
-import { IPlayerGame } from './player-game';
+import { IPlayerGame, PlayerGame } from './player-game';
 import { ISet } from './set';
 
 export interface IGame {
@@ -15,10 +15,11 @@ export class Game implements IGame {
   position: number;
   playerGames: IPlayerGame[];
 
-  constructor({ position }: { position: number }) {
+  constructor({ position, players }: { position: number; players: IPlayer[] }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
     this.position = position;
     this.playerGames = [];
+    this.newPlayerGames(players);
   }
 
   getSet(allSets: ISet[]): ISet {
@@ -29,10 +30,10 @@ export class Game implements IGame {
 
   addPointToPlayer(player: IPlayer): void {
     const winningPointPlayerGame: IPlayerGame = this.playerGames.find(
-      (playerGame) => playerGame.playerId === player.id
+      (playerGame) => playerGame.player.id === player.id
     );
     const loserPointPlayerGame: IPlayerGame = this.playerGames.find(
-      (playerGame) => playerGame.playerId !== player.id
+      (playerGame) => playerGame.player.id !== player.id
     );
 
     switch (winningPointPlayerGame.playerScore) {
@@ -57,6 +58,13 @@ export class Game implements IGame {
         break;
       default:
         return;
+    }
+  }
+
+  private newPlayerGames(players: IPlayer[]): void {
+    for (const player of players) {
+      const playerGame: IPlayerGame = new PlayerGame({ player });
+      this.playerGames.push(playerGame);
     }
   }
 }
