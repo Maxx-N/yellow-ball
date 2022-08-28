@@ -8,4 +8,9 @@ table {
   .mat-column-current-game {
     border-left: 1px solid;
   }
+
+  .mat-column-player-name,
+  .mat-column-current-game {
+    width: 25%;
+  }
 }

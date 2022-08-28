@@ -8,6 +8,7 @@ export interface PlayerScore {
   fourthSet?: number;
   fifthSet?: number;
   currentGame: number;
+  isServing: boolean;
 }
 
 const ELEMENT_DATA: PlayerScore[] = [
@@ -18,6 +19,7 @@ const ELEMENT_DATA: PlayerScore[] = [
     thirdSet: 6,
     fourthSet: 0,
     currentGame: 15,
+    isServing: true,
   },
   {
     playerName: 'Nadal',
@@ -26,6 +28,7 @@ const ELEMENT_DATA: PlayerScore[] = [
     thirdSet: 7,
     fourthSet: 1,
     currentGame: 40,
+    isServing: false,
   },
 ];
 

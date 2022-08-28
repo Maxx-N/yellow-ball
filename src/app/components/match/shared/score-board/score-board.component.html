@@ -1,6 +1,13 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="player-name">
-    <td mat-cell *matCellDef="let element">{{ element.playerName }}</td>
+    <td
+      [ngClass]="{ server: element.isServing }"
+      mat-cell
+      *matCellDef="let element"
+    >
+      {{ element.playerName }}
+      <span *ngIf="element.isServing">•</span>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="first-set">

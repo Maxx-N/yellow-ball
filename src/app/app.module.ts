@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatchComponent } from './components/match/match.component';
 import { CurrentMatchComponent } from './components/match/current-match/current-match.component';
 import { ScoreButtonsComponent } from './components/match/current-match/score-buttons/score-buttons.component';
