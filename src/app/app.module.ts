@@ -14,6 +14,8 @@ import { PlayerListComponent } from './components/player/player-list/player-list
 import { PlayerDetailComponent } from './components/player/player-detail/player-detail.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { AppRoutingModule } from './app-routing.module';
+import { MatchStatsComponent } from './components/match/shared/match-stats/match-stats.component';
+import { NewMatchComponent } from './components/match/current-match/new-match/new-match.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { AppRoutingModule } from './app-routing.module';
     PlayerListComponent,
     PlayerDetailComponent,
     NavMenuComponent,
+    MatchStatsComponent,
+    NewMatchComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule],
   providers: [],
