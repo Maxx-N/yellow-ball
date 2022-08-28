@@ -13,6 +13,7 @@ import { PlayerComponent } from './components/player/player.component';
 import { PlayerListComponent } from './components/player/player-list/player-list.component';
 import { PlayerDetailComponent } from './components/player/player-detail/player-detail.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
     PlayerDetailComponent,
     NavMenuComponent,
   ],
-  imports: [BrowserModule, BrowserAnimationsModule],
+  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
 })
