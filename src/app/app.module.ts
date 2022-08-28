@@ -16,6 +16,7 @@ import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MatchStatsComponent } from './components/match/shared/match-stats/match-stats.component';
 import { NewMatchComponent } from './components/match/current-match/new-match/new-match.component';
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,12 @@ import { NewMatchComponent } from './components/match/current-match/new-match/ne
     MatchStatsComponent,
     NewMatchComponent,
   ],
-  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    MaterialModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
