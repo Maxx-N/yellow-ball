@@ -2,15 +2,17 @@ table {
   width: 100%;
   text-align: center;
 
-  .mat-column-player-name {
-    border-right: 1px solid;
-  }
+  .mat-column-first-set,
   .mat-column-current-game {
     border-left: 1px solid;
   }
 
+  .mat-column-is-serving {
+    width: 5%;
+  }
+
   .mat-column-player-name,
   .mat-column-current-game {
-    width: 25%;
+    width: 20%;
   }
 }

@@ -38,7 +38,17 @@ const ELEMENT_DATA: PlayerScore[] = [
   styleUrls: ['./score-board.component.scss'],
 })
 export class ScoreBoardComponent implements OnInit {
-  displayedColumns: string[] = [
+  displayedColumns: string[] =
+  ELEMENT_DATA.some(el => el.isServing) ? [
+    'player-name',
+    'is-serving',
+    'first-set',
+    'second-set',
+    'third-set',
+    'fourth-set',
+    'fifth-set',
+    'current-game',
+  ]: [
     'player-name',
     'first-set',
     'second-set',
