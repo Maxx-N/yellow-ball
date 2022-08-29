@@ -6,17 +6,12 @@
     fxLayoutGap="5%"
   >
     <h1 fxLayout="row" fxLayoutAlign="center">{{ player.lastName }}</h1>
-    <!-- <div
-      class="service-butons"
-      fxLayout="row"
-      fxLayoutAlign="space-around"
-      *ngIf="currentMatch.getCurrentServer().id === player.id"
-    > -->
+
     <div
       class="service-butons"
       fxLayout="row"
       fxLayoutAlign="space-around"
-      [ngClass]="{ hidden: currentMatch.getCurrentServer().id === player.id }"
+      [ngClass]="{ hidden: currentMatch.getCurrentServer().id !== player.id }"
     >
       <button mat-raised-button color="primary">Ace</button>
       <button mat-raised-button color="warn">Fault</button>
