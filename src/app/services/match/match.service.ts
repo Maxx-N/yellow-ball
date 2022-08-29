@@ -31,7 +31,6 @@ export class MatchService {
   winPoint(player: IPlayer): void {
     this.currentMatch.addPointToPlayer(player);
     this.currentMatchSubject.next(this.getCurrentMatch());
-    this.logScore();
   }
 
   private get2PlayersByName(...playerNames: string[]): IPlayer[] {
@@ -40,35 +39,5 @@ export class MatchService {
         return player.lastName.toLowerCase() === playerName.toLowerCase();
       });
     });
-  }
-
-  private logScore(): void {
-    const stringScores = [];
-    for (const player of this.currentMatch.players) {
-      let scoreString = `${player.lastName} - `;
-      for (const set of this.currentMatch.sets) {
-        scoreString += set.getPlayerScore(player);
-        scoreString += ' ';
-      }
-      scoreString += '| ';
-      scoreString += this.currentMatch.getCurrentGame().getPlayerScore(player);
-      stringScores.push(scoreString);
-    }
-    let newString = '';
-    stringScores.forEach((str) => {
-      newString += str;
-      newString += '\n';
-    });
-    console.log(newString);
-    console.log('\n');
-
-    if (!!this.currentMatch.getCurrentSet().getWinner()) {
-      console.log('SET OVER');
-    }
-    if (!!this.currentMatch.getWinner()) {
-      console.log(
-        `\nJEUX, SET ET MATCH ${this.currentMatch.getWinner().lastName} !!!`
-      );
-    }
   }
 }
