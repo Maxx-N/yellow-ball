@@ -20,10 +20,13 @@ export class MatchService {
   }
 
   createNewMatch(): void {
+    const players = this.get2PlayersByName('nadal', 'djokovic');
+    const server = players[Math.floor(Math.random() * players.length)];
     this.currentMatch = new Match({
-      players: this.get2PlayersByName('nadal', 'djokovic'),
+      players,
       isFinalSetTiebreak: false,
       setsNumber: 5,
+      server,
     });
     this.currentMatchSubject.next(this.getCurrentMatch());
   }

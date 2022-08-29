@@ -5,6 +5,7 @@ export interface IPlayerGame {
   id: string;
   player: IPlayer;
   playerScore: '0' | '15' | '30' | '40' | 'A' | 'W';
+  isServing: boolean;
   acesCount: number;
   firstServesCount: number;
   doubleFaultsCount: number;
@@ -24,6 +25,7 @@ export class PlayerGame implements IPlayerGame {
   id: string;
   player: IPlayer;
   playerScore: '0' | '15' | '30' | '40' | 'A' | 'W';
+  isServing: boolean;
   acesCount: number;
   firstServesCount: number;
   doubleFaultsCount: number;
@@ -37,10 +39,11 @@ export class PlayerGame implements IPlayerGame {
   breakPointsCount: number;
   breakPointConversionsCount: number;
 
-  constructor({ player }: { player: IPlayer }) {
+  constructor({ player, isServing }: { player: IPlayer; isServing?: boolean }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
     this.player = player;
 
+    this.isServing = isServing;
     this.playerScore = '0';
     this.acesCount = 0;
     this.firstServesCount = 0;

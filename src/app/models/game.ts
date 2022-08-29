@@ -9,6 +9,7 @@ export interface IGame {
   getSet(allSets: ISet[]): ISet;
   getWinner(): IPlayer;
   getPlayerScore(player: IPlayer): string;
+  getServer(): IPlayer;
   addPointToPlayer(player: IPlayer): void;
 }
 
@@ -17,11 +18,19 @@ export class Game implements IGame {
   position: number;
   playerGames: IPlayerGame[];
 
-  constructor({ position, players }: { position: number; players: IPlayer[] }) {
+  constructor({
+    position,
+    players,
+    server,
+  }: {
+    position: number;
+    players: IPlayer[];
+    server: IPlayer;
+  }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
     this.position = position;
     this.playerGames = [];
-    this.newPlayerGames(players);
+    this.newPlayerGames({ players, server });
   }
 
   getSet(allSets: ISet[]): ISet {
@@ -40,6 +49,12 @@ export class Game implements IGame {
     return this.playerGames.find((playerGame) => {
       return playerGame.player.id === player.id;
     }).playerScore;
+  }
+
+  getServer(): IPlayer {
+    return this.playerGames.find((playerGame) => {
+      return playerGame.isServing;
+    })?.player;
   }
 
   addPointToPlayer(player: IPlayer): void {
@@ -77,9 +92,18 @@ export class Game implements IGame {
     }
   }
 
-  private newPlayerGames(players: IPlayer[]): void {
+  private newPlayerGames({
+    players,
+    server,
+  }: {
+    players: IPlayer[];
+    server: IPlayer;
+  }): void {
     for (const player of players) {
-      const playerGame: IPlayerGame = new PlayerGame({ player });
+      const playerGame: IPlayerGame = new PlayerGame({
+        player,
+        isServing: player.id === server.id,
+      });
       this.playerGames.push(playerGame);
     }
   }

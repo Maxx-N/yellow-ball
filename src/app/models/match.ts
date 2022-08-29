@@ -13,7 +13,8 @@ export interface IMatch {
   getCurrentGame(): IGame;
   getPlayerScore(player: IPlayer): number;
   getWinner(): IPlayer;
-  newSet(): void;
+  getCurrentServer(): IPlayer;
+  newSet(server: IPlayer): void;
   newGame(): void;
   addPointToPlayer(player: IPlayer): void;
 }
@@ -28,10 +29,12 @@ export class Match implements IMatch {
 
   constructor({
     players,
+    server,
     isFinalSetTiebreak,
     setsNumber,
   }: {
     players: IPlayer[];
+    server: IPlayer;
     isFinalSetTiebreak: boolean;
     setsNumber: 3 | 5;
   }) {
@@ -40,7 +43,9 @@ export class Match implements IMatch {
     this.sets = [];
     this.isFinalSetTiebreak = isFinalSetTiebreak;
     this.setsNumber = setsNumber;
-    this.newSet();
+    if (!!server) {
+      this.newSet(server);
+    }
   }
 
   getCurrentSet(): ISet {
@@ -68,22 +73,35 @@ export class Match implements IMatch {
     });
   }
 
-  newSet(): void {
+  getCurrentServer(): IPlayer {
+    return this.getCurrentSet().getCurrentServer();
+  }
+
+  newSet(server: IPlayer): void {
     const position = this.sets.length + 1;
-    const newSet: ISet = new Set({ position, players: this.players });
+    const newSet: ISet = new Set({ position, players: this.players, server });
     this.sets.push(newSet);
   }
 
   newGame(): void {
-    this.getCurrentSet().newGame(this.players);
+    this.getCurrentSet().newGame({
+      players: this.players,
+      server: this.getNextServer(),
+    });
   }
 
   addPointToPlayer(player: IPlayer): void {
     this.getCurrentSet().addPointToPlayer(player);
     if (!!this.getCurrentSet().getWinner()) {
-      this.newSet();
+      this.newSet(this.getNextServer());
     } else if (!!this.getCurrentGame().getWinner()) {
       this.newGame();
     }
+  }
+
+  private getNextServer(): IPlayer {
+    return this.getCurrentGame().playerGames.find((playerGame) => {
+      return !playerGame.isServing;
+    }).player;
   }
 }

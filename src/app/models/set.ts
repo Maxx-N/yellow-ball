@@ -10,7 +10,8 @@ export interface ISet {
   getCurrentGame(): IGame;
   getPlayerScore(player: IPlayer): number;
   getWinner(): IPlayer;
-  newGame(players: IPlayer[]): void;
+  getCurrentServer(): IPlayer;
+  newGame({ players, server }: { players: IPlayer[]; server: IPlayer }): void;
   addPointToPlayer(player: IPlayer): void;
 }
 
@@ -19,11 +20,19 @@ export class Set implements ISet {
   position: number;
   games: IGame[];
 
-  constructor({ position, players }: { position: number; players: IPlayer[] }) {
+  constructor({
+    position,
+    players,
+    server,
+  }: {
+    position: number;
+    players: IPlayer[];
+    server: IPlayer;
+  }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
     this.position = position;
     this.games = [];
-    this.newGame(players);
+    this.newGame({ players, server });
   }
 
   getMatch(allMatches: IMatch[]): IMatch {
@@ -47,9 +56,11 @@ export class Set implements ISet {
   }
 
   getWinner(): IPlayer {
-    const players: IPlayer[] = this.games[0].playerGames.map((playerGame) => {
-      return playerGame.player;
-    });
+    const players: IPlayer[] = this.getCurrentGame()?.playerGames.map(
+      (playerGame) => {
+        return playerGame.player;
+      }
+    );
 
     if (players.some((player) => this.getPlayerScore(player) >= 6)) {
       if (players.some((player) => this.getPlayerScore(player) <= 4)) {
@@ -62,11 +73,16 @@ export class Set implements ISet {
     }
   }
 
-  newGame(players: IPlayer[]): void {
+  getCurrentServer(): IPlayer {
+    return this.getCurrentGame().getServer();
+  }
+
+  newGame({ players, server }: { players: IPlayer[]; server: IPlayer }): void {
     const position = this.games.length + 1;
     const newGame: IGame = new Game({
       position,
       players,
+      server,
     });
     this.games.push(newGame);
   }

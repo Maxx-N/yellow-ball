@@ -10,7 +10,7 @@
       class="service-butons"
       fxLayout="row"
       fxLayoutAlign="space-around"
-      *ngIf="false"
+      *ngIf="currentMatch.getCurrentServer().id === player.id"
     >
       <button mat-raised-button color="primary">Ace</button>
       <button mat-raised-button color="warn">Fault</button>
