@@ -60,5 +60,15 @@ export class MatchService {
       newString += '\n';
     });
     console.log(newString);
+    console.log('\n');
+
+    if (!!this.currentMatch.getCurrentSet().getWinner()) {
+      console.log('SET OVER');
+    }
+    if (!!this.currentMatch.getWinner()) {
+      console.log(
+        `\nJEUX, SET ET MATCH ${this.currentMatch.getWinner().lastName} !!!`
+      );
+    }
   }
 }

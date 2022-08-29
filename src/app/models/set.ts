@@ -51,23 +51,11 @@ export class Set implements ISet {
       return playerGame.player;
     });
 
-    if (
-      players.some((player) => {
-        this.getPlayerScore(player) >= 6;
-      })
-    ) {
-      if (
-        players.some((player) => {
-          this.getPlayerScore(player) <= 4;
-        })
-      ) {
-        return players.find((player) => {
-          this.getPlayerScore(player) >= 6;
-        });
+    if (players.some((player) => this.getPlayerScore(player) >= 6)) {
+      if (players.some((player) => this.getPlayerScore(player) <= 4)) {
+        return players.find((player) => this.getPlayerScore(player) >= 6);
       } else {
-        return players.find((player) => {
-          this.getPlayerScore(player) >= 7;
-        });
+        return players.find((player) => this.getPlayerScore(player) >= 7);
       }
     } else {
       return null;

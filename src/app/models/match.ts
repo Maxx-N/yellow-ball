@@ -54,7 +54,7 @@ export class Match implements IMatch {
   getPlayerScore(player: IPlayer): number {
     let score: number = 0;
     for (const set of this.sets) {
-      if (set.getWinner().id === player.id) {
+      if (set.getWinner()?.id === player.id) {
         score++;
       }
     }
@@ -80,5 +80,10 @@ export class Match implements IMatch {
 
   addPointToPlayer(player: IPlayer): void {
     this.getCurrentSet().addPointToPlayer(player);
+    if (!!this.getCurrentSet().getWinner()) {
+      this.newSet();
+    } else if (!!this.getCurrentGame().getWinner()) {
+      this.newGame();
+    }
   }
 }
