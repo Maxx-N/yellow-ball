@@ -10,6 +10,9 @@ export interface IMatch {
   isFinalSetTiebreak: boolean;
   setsNumber: 3 | 5;
   getCurrentSet(): ISet;
+  getCurrentGame(): IGame;
+  getPlayerScore(player: IPlayer): number;
+  getWinner(): IPlayer;
   newSet(): void;
   newGame(): void;
 }
@@ -45,6 +48,23 @@ export class Match implements IMatch {
 
   getCurrentGame(): IGame {
     return this.getCurrentSet().getCurrentGame();
+  }
+
+  getPlayerScore(player: IPlayer): number {
+    let score: number = 0;
+    for (const set of this.sets) {
+      if (set.getWinner().id === player.id) {
+        score++;
+      }
+    }
+    return score;
+  }
+
+  getWinner(): IPlayer {
+    const winningSets: number = this.setsNumber === 5 ? 3 : 2;
+    return this.players.find((player) => {
+      return this.getPlayerScore(player) >= winningSets;
+    });
   }
 
   newSet(): void {

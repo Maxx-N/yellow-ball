@@ -7,6 +7,7 @@ export interface IGame {
   position: number;
   playerGames: IPlayerGame[];
   getSet(allSets: ISet[]): ISet;
+  getWinner(): IPlayer;
   addPointToPlayer(player: IPlayer): void;
 }
 
@@ -26,6 +27,12 @@ export class Game implements IGame {
     return allSets.find((set) => {
       return set.games.map((game) => game.id).includes(this.id);
     });
+  }
+
+  getWinner(): IPlayer {
+    return this.playerGames.find((playerGame) => {
+      return playerGame.playerScore === 'W';
+    }).player;
   }
 
   addPointToPlayer(player: IPlayer): void {
