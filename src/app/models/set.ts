@@ -1,7 +1,6 @@
-import { IMatch } from './match';
 import { Game, IGame } from './game';
+import { IMatch } from './match';
 import { IPlayer } from './player';
-import { PlayerGame } from './player-game';
 
 export interface ISet {
   id: string;
@@ -41,7 +40,7 @@ export class Set implements ISet {
     this.id = Math.floor(Math.random() * 1000000).toString();
     this.position = position;
     this.games = [];
-    this.newGame({ players, server });
+    this.newGame({ players, server, isTieBreak: false });
   }
 
   getMatch(allMatches: IMatch[]): IMatch {
@@ -71,14 +70,34 @@ export class Set implements ISet {
       }
     );
 
-    if (players.some((player) => this.getPlayerScore(player) >= 6)) {
-      if (players.some((player) => this.getPlayerScore(player) <= 4)) {
-        return players.find((player) => this.getPlayerScore(player) >= 6);
-      } else {
-        return players.find((player) => this.getPlayerScore(player) >= 7);
-      }
+    if (this.getCurrentGame().isTieBreak) {
+      return this.getCurrentGame().getWinner();
     } else {
-      return null;
+      const playerWith6PointsAtLeast: IPlayer = players.find(
+        (player: IPlayer) => {
+          return this.getPlayerScore(player) >= 6;
+        }
+      );
+
+      if (!!playerWith6PointsAtLeast) {
+        const otherPlayerTieBreak: IPlayer = players.find((player) => {
+          return player.id !== playerWith6PointsAtLeast.id;
+        });
+
+        const scoreDifference: number =
+          this.getPlayerScore(playerWith6PointsAtLeast) -
+          this.getPlayerScore(otherPlayerTieBreak);
+
+        if (scoreDifference < 2 && scoreDifference > -2) {
+          return null;
+        } else if (scoreDifference >= 2) {
+          return playerWith6PointsAtLeast;
+        } else {
+          return otherPlayerTieBreak;
+        }
+      } else {
+        return null;
+      }
     }
   }
 
@@ -86,17 +105,15 @@ export class Set implements ISet {
     return this.getCurrentGame().getCurrentServer();
   }
 
-  newGame({ players, server }: { players: IPlayer[]; server: IPlayer }): void {
-    const playerScores: number[] = this.getCurrentGame()
-      ?.playerGames.map((playerGame) => {
-        return playerGame.player;
-      })
-      .map((player) => {
-        return this.getPlayerScore(player);
-      });
-    let isTieBreak =
-      !!playerScores && playerScores[0] === 6 && playerScores[1] === 6;
-
+  newGame({
+    players,
+    server,
+    isTieBreak,
+  }: {
+    players: IPlayer[];
+    server: IPlayer;
+    isTieBreak: boolean;
+  }): void {
     const position = this.games.length + 1;
     const newGame: IGame = new Game({
       position,

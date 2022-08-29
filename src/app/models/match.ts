@@ -84,9 +84,28 @@ export class Match implements IMatch {
   }
 
   newGame(): void {
+    let isTieBreak = false;
+
+    const playerScoresInTheCurrentSet: number[] = this.players.map((player) => {
+      return this.getCurrentSet().getPlayerScore(player);
+    });
+
+    const is6All =
+      !!playerScoresInTheCurrentSet &&
+      playerScoresInTheCurrentSet[0] === 6 &&
+      playerScoresInTheCurrentSet[1] === 6;
+
+    if (is6All) {
+      const isFinalSet: boolean = this.sets.length === this.setsNumber;
+      if (!isFinalSet || this.isFinalSetTiebreak) {
+        isTieBreak = true;
+      }
+    }
+
     this.getCurrentSet().newGame({
       players: this.players,
       server: this.getNextServer(),
+      isTieBreak,
     });
   }
 
