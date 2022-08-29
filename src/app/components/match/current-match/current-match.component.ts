@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatchService } from 'src/app/services/match/match.service';
 
 @Component({
   selector: 'app-current-match',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./current-match.component.scss'],
 })
 export class CurrentMatchComponent implements OnInit {
-  constructor() {}
+  constructor(private matchService: MatchService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.matchService.createNewMatch();
+  }
 }

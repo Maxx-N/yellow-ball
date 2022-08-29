@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 import { IMatch, Match } from 'src/app/models/match';
 import { IPlayer } from 'src/app/models/player';
@@ -10,6 +11,7 @@ import * as matchHelpers from 'src/app/helpers/match.helpers';
 })
 export class MatchService {
   private currentMatch: IMatch;
+  currentMatchSubject = new Subject<IMatch>();
 
   constructor(private playerService: PlayerService) {}
 
@@ -23,6 +25,13 @@ export class MatchService {
       isFinalSetTiebreak: false,
       setsNumber: 5,
     });
+    this.currentMatchSubject.next(this.getCurrentMatch());
+  }
+
+  winPoint(player: IPlayer): void {
+    this.currentMatch.addPointToPlayer(player);
+    this.currentMatchSubject.next(this.getCurrentMatch());
+    this.logScore();
   }
 
   private get2PlayersByName(...playerNames: string[]): IPlayer[] {
@@ -31,5 +40,25 @@ export class MatchService {
         return player.lastName.toLowerCase() === playerName.toLowerCase();
       });
     });
+  }
+
+  private logScore(): void {
+    const stringScores = [];
+    for (const player of this.currentMatch.players) {
+      let scoreString = `${player.lastName} - `;
+      for (const set of this.currentMatch.sets) {
+        scoreString += set.getPlayerScore(player);
+        scoreString += ' ';
+      }
+      scoreString += '| ';
+      scoreString += this.currentMatch.getCurrentGame().getPlayerScore(player);
+      stringScores.push(scoreString);
+    }
+    let newString = '';
+    stringScores.forEach((str) => {
+      newString += str;
+      newString += '\n';
+    });
+    console.log(newString);
   }
 }

@@ -15,6 +15,7 @@ export interface IMatch {
   getWinner(): IPlayer;
   newSet(): void;
   newGame(): void;
+  addPointToPlayer(player: IPlayer): void;
 }
 
 export class Match implements IMatch {
@@ -75,5 +76,9 @@ export class Match implements IMatch {
 
   newGame(): void {
     this.getCurrentSet().newGame(this.players);
+  }
+
+  addPointToPlayer(player: IPlayer): void {
+    this.getCurrentSet().addPointToPlayer(player);
   }
 }

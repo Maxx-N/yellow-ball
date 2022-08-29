@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import { IMatch } from 'src/app/models/match';
+import { IPlayer } from 'src/app/models/player';
+import { MatchService } from 'src/app/services/match/match.service';
+
 @Component({
   selector: 'app-score-buttons',
   templateUrl: './score-buttons.component.html',
@@ -8,10 +12,21 @@ import { Component, OnInit } from '@angular/core';
 export class ScoreButtonsComponent implements OnInit {
   players: any[] = [
     { name: 'Federer', isServing: true },
-    { name: 'Nadal', isServing: false }
+    { name: 'Nadal', isServing: false },
   ];
 
-  constructor() {}
+  currentMatch: IMatch;
 
-  ngOnInit(): void {}
+  constructor(private matchService: MatchService) {}
+
+  ngOnInit(): void {
+    this.currentMatch = this.matchService.getCurrentMatch();
+    this.matchService.currentMatchSubject.subscribe((match) => {
+      this.currentMatch = match;
+    });
+  }
+
+  onWinPoint(player: IPlayer): void {
+    this.matchService.winPoint(player);
+  }
 }

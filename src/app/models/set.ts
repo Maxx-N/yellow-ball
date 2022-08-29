@@ -11,6 +11,7 @@ export interface ISet {
   getPlayerScore(player: IPlayer): number;
   getWinner(): IPlayer;
   newGame(players: IPlayer[]): void;
+  addPointToPlayer(player: IPlayer): void;
 }
 
 export class Set implements ISet {
@@ -38,7 +39,7 @@ export class Set implements ISet {
   getPlayerScore(player: IPlayer): number {
     let score: number = 0;
     for (const game of this.games) {
-      if (game.getWinner().id === player.id) {
+      if (game.getWinner()?.id === player.id) {
         score++;
       }
     }
@@ -80,5 +81,9 @@ export class Set implements ISet {
       players,
     });
     this.games.push(newGame);
+  }
+
+  addPointToPlayer(player: IPlayer): void {
+    this.getCurrentGame().addPointToPlayer(player);
   }
 }

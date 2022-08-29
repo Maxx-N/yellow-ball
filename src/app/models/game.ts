@@ -8,6 +8,7 @@ export interface IGame {
   playerGames: IPlayerGame[];
   getSet(allSets: ISet[]): ISet;
   getWinner(): IPlayer;
+  getPlayerScore(player: IPlayer): string;
   addPointToPlayer(player: IPlayer): void;
 }
 
@@ -32,7 +33,13 @@ export class Game implements IGame {
   getWinner(): IPlayer {
     return this.playerGames.find((playerGame) => {
       return playerGame.playerScore === 'W';
-    }).player;
+    })?.player;
+  }
+
+  getPlayerScore(player: IPlayer): string {
+    return this.playerGames.find((playerGame) => {
+      return playerGame.player.id === player.id;
+    }).playerScore;
   }
 
   addPointToPlayer(player: IPlayer): void {
@@ -56,6 +63,8 @@ export class Game implements IGame {
       case '40':
         if (loserPointPlayerGame.playerScore === '40') {
           winningPointPlayerGame.playerScore = 'A';
+        } else if (loserPointPlayerGame.playerScore === 'A') {
+          loserPointPlayerGame.playerScore = '40';
         } else {
           winningPointPlayerGame.playerScore = 'W';
         }
