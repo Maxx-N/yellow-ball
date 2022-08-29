@@ -24,7 +24,7 @@ export class MatchService {
     const server = players[Math.floor(Math.random() * players.length)];
     this.currentMatch = new Match({
       players,
-      isFinalSetTiebreak: false,
+      isFinalSetTiebreak: true,
       setsNumber: 5,
       server,
     });

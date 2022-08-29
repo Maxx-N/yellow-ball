@@ -1,6 +1,7 @@
 import { IMatch } from './match';
 import { Game, IGame } from './game';
 import { IPlayer } from './player';
+import { PlayerGame } from './player-game';
 
 export interface ISet {
   id: string;
@@ -11,7 +12,15 @@ export interface ISet {
   getPlayerScore(player: IPlayer): number;
   getWinner(): IPlayer;
   getCurrentServer(): IPlayer;
-  newGame({ players, server }: { players: IPlayer[]; server: IPlayer }): void;
+  newGame({
+    players,
+    server,
+    isTieBreak,
+  }: {
+    players: IPlayer[];
+    server: IPlayer;
+    isTieBreak?: boolean;
+  }): void;
   addPointToPlayer(player: IPlayer): void;
 }
 
@@ -74,15 +83,26 @@ export class Set implements ISet {
   }
 
   getCurrentServer(): IPlayer {
-    return this.getCurrentGame().getServer();
+    return this.getCurrentGame().getCurrentServer();
   }
 
   newGame({ players, server }: { players: IPlayer[]; server: IPlayer }): void {
+    const playerScores: number[] = this.getCurrentGame()
+      ?.playerGames.map((playerGame) => {
+        return playerGame.player;
+      })
+      .map((player) => {
+        return this.getPlayerScore(player);
+      });
+    let isTieBreak =
+      !!playerScores && playerScores[0] === 6 && playerScores[1] === 6;
+
     const position = this.games.length + 1;
     const newGame: IGame = new Game({
       position,
       players,
       server,
+      isTieBreak,
     });
     this.games.push(newGame);
   }
