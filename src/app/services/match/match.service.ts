@@ -25,7 +25,7 @@ export class MatchService {
     this.currentMatch = new Match({
       players,
       isFinalSetTiebreak: false,
-      setsNumber: 3,
+      setsNumber: 5,
       server,
     });
     this.currentMatchSubject.next(this.getCurrentMatch());

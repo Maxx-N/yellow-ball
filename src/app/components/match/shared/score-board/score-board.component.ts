@@ -70,33 +70,28 @@ export class ScoreBoardComponent implements OnInit {
         fourthSet: this.currentMatch.sets[3]?.getPlayerScore(player),
         fifthSet: this.currentMatch.sets[4]?.getPlayerScore(player),
         currentGame: this.currentMatch.getCurrentGame().getPlayerScore(player),
-        isServing:
-          !!!this.currentMatch.getWinner() &&
-          this.currentMatch.getCurrentServer()?.id === player?.id,
+        isServing: this.currentMatch.getCurrentServer()?.id === player?.id,
       };
     });
   }
 
   private setDisplayedColumns(): void {
-    this.displayedColumns = this.dataSource.some((el) => el.isServing)
-      ? [
-          'player-name',
-          'is-serving',
-          'first-set',
-          'second-set',
-          'third-set',
-          'fourth-set',
-          'fifth-set',
-          'current-game',
-        ]
-      : [
-          'player-name',
-          'first-set',
-          'second-set',
-          'third-set',
-          'fourth-set',
-          'fifth-set',
-          'current-game',
-        ];
+    const columnsToDisplay = [
+      'player-name',
+      'is-serving',
+      'first-set',
+      'second-set',
+      'third-set',
+      'fourth-set',
+      'fifth-set',
+      'current-game',
+    ];
+
+    if (this.currentMatch.getWinner()) {
+      columnsToDisplay.splice(columnsToDisplay.indexOf('is-serving'), 1);
+      columnsToDisplay.splice(columnsToDisplay.indexOf('current-game'), 1);
+    }
+
+    this.displayedColumns = columnsToDisplay;
   }
 }
