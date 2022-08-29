@@ -110,11 +110,15 @@ export class Match implements IMatch {
   }
 
   addPointToPlayer(player: IPlayer): void {
-    this.getCurrentSet().addPointToPlayer(player);
-    if (!!this.getCurrentSet().getWinner()) {
-      this.newSet(this.getNextServer());
-    } else if (!!this.getCurrentGame().getWinner()) {
-      this.newGame();
+    if (!this.getWinner()) {
+      this.getCurrentSet().addPointToPlayer(player);
+      if (!this.getWinner()) {
+        if (!!this.getCurrentSet().getWinner()) {
+          this.newSet(this.getNextServer());
+        } else if (!!this.getCurrentGame().getWinner()) {
+          this.newGame();
+        }
+      }
     }
   }
 

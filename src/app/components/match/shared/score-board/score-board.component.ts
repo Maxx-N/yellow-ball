@@ -70,7 +70,9 @@ export class ScoreBoardComponent implements OnInit {
         fourthSet: this.currentMatch.sets[3]?.getPlayerScore(player),
         fifthSet: this.currentMatch.sets[4]?.getPlayerScore(player),
         currentGame: this.currentMatch.getCurrentGame().getPlayerScore(player),
-        isServing: this.currentMatch.getCurrentServer()?.id === player?.id,
+        isServing:
+          !!!this.currentMatch.getWinner() &&
+          this.currentMatch.getCurrentServer()?.id === player?.id,
       };
     });
   }
