@@ -1,1 +1,22 @@
-<div class="nav-menu">Header Menu</div>
+<div class="nav-menu">
+  <mat-toolbar fxLayoutAlign="space-between center">
+    <span>The Yellow Ball</span>
+    <div
+      class="navbar-right"
+      fxLayoutAlign="space-between"
+      fxFlex="25%"
+      fxLayoutGap="50%"
+    >
+      <mat-select placeholder="Matches">
+        <mat-option [routerLink]="['match', 'all']"> All Matches</mat-option>
+        <mat-option [routerLink]="['match', 'current']">
+          New/Current Match</mat-option
+        >
+      </mat-select>
+      <mat-select placeholder="Players">
+        <mat-option [routerLink]="['player', 'all']"> All Players </mat-option>
+        <mat-option [routerLink]="['player', 'new']"> New Player </mat-option>
+      </mat-select>
+    </div>
+  </mat-toolbar>
+</div>

@@ -3,38 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { IMatch } from 'src/app/models/match';
 import { MatchService } from 'src/app/services/match/match.service';
 
-// export interface PlayerScore {
-//   playerName: string;
-//   firstSet: number;
-//   secondSet?: number;
-//   thirdSet?: number;
-//   fourthSet?: number;
-//   fifthSet?: number;
-//   currentGame: number;
-//   isServing: boolean;
-// }
-
-// const ELEMENT_DATA: PlayerScore[] = [
-//   {
-//     playerName: 'Federer',
-//     firstSet: 6,
-//     secondSet: 7,
-//     thirdSet: 6,
-//     fourthSet: 0,
-//     currentGame: 15,
-//     isServing: true,
-//   },
-//   {
-//     playerName: 'Nadal',
-//     firstSet: 4,
-//     secondSet: 5,
-//     thirdSet: 7,
-//     fourthSet: 1,
-//     currentGame: 40,
-//     isServing: false,
-//   },
-// ];
-
 @Component({
   selector: 'app-score-board',
   templateUrl: './score-board.component.html',

@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+import { MaterialModule } from './material.module';
 import { AppComponent } from './app.component';
 import { MatchComponent } from './components/match/match.component';
 import { CurrentMatchComponent } from './components/match/current-match/current-match.component';
@@ -17,7 +18,7 @@ import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MatchStatsComponent } from './components/match/shared/match-stats/match-stats.component';
 import { NewMatchComponent } from './components/match/current-match/new-match/new-match.component';
-import { MaterialModule } from './material.module';
+import { NewPlayerComponent } from './components/player/new-player/new-player.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { MaterialModule } from './material.module';
     NavMenuComponent,
     MatchStatsComponent,
     NewMatchComponent,
+    NewPlayerComponent,
   ],
   imports: [
     BrowserModule,
