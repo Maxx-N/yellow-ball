@@ -1,5 +1,4 @@
 import { Game, IGame } from './game';
-import { IMatch } from './match';
 import { IPlayer } from './player';
 
 export interface ISet {

@@ -1,6 +1,5 @@
 import { IPlayer } from './player';
 import { IPlayerGame, PlayerGame, PlayerTieBreak } from './player-game';
-import { ISet } from './set';
 
 export interface IGame {
   id: string;
