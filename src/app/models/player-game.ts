@@ -19,7 +19,6 @@ export interface IPlayerGame {
   unforcedErrorsCount: number;
   breakPointsCount?: number;
   breakPointConversionsCount?: number;
-  getGame(allGames: IGame[]): IGame;
 }
 
 export class PlayerGame implements IPlayerGame {
@@ -59,14 +58,6 @@ export class PlayerGame implements IPlayerGame {
     this.breakPointsCount = 0;
     this.breakPointConversionsCount = 0;
   }
-
-  getGame(allGames: IGame[]): IGame {
-    return allGames.find((game) => {
-      return game.playerGames
-        .map((playerGame) => playerGame.id)
-        .includes(this.id);
-    });
-  }
 }
 
 export class PlayerTieBreak implements IPlayerGame {
@@ -103,13 +94,5 @@ export class PlayerTieBreak implements IPlayerGame {
     this.winnerPointsCount = 0;
     this.forcedErrorsCount = 0;
     this.unforcedErrorsCount = 0;
-  }
-
-  getGame(allGames: IGame[]): IGame {
-    return allGames.find((game) => {
-      return game.playerGames
-        .map((playerGame) => playerGame.id)
-        .includes(this.id);
-    });
   }
 }

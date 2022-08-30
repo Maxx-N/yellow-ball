@@ -5,7 +5,6 @@ import { IPlayer } from './player';
 export interface ISet {
   id: string;
   games: IGame[];
-  getMatch(allMatches: IMatch[]): IMatch;
   getCurrentGame(): IGame;
   getPlayerScore(player: IPlayer): number;
   getWinner(): IPlayer;
@@ -36,12 +35,6 @@ export class Set implements ISet {
     this.id = Math.floor(Math.random() * 1000000).toString();
     this.games = [];
     this.newGame({ players, server, isTieBreak: false });
-  }
-
-  getMatch(allMatches: IMatch[]): IMatch {
-    return allMatches.find((match) => {
-      return match.sets.map((set) => set.id).includes(this.id);
-    });
   }
 
   getCurrentGame(): IGame {

@@ -6,7 +6,6 @@ export interface IGame {
   id: string;
   isTieBreak: boolean;
   playerGames: IPlayerGame[];
-  getSet(allSets: ISet[]): ISet;
   getWinner(): IPlayer;
   getPlayerScore(player: IPlayer): string | number;
   getCurrentServer(): IPlayer;
@@ -32,12 +31,6 @@ export class Game implements IGame {
     this.isTieBreak = isTieBreak;
 
     this.newPlayerGames({ players, server });
-  }
-
-  getSet(allSets: ISet[]): ISet {
-    return allSets.find((set) => {
-      return set.games.map((game) => game.id).includes(this.id);
-    });
   }
 
   getWinner(): IPlayer {
