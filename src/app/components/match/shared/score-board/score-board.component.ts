@@ -71,6 +71,7 @@ export class ScoreBoardComponent implements OnInit {
         fifthSet: this.currentMatch.sets[4]?.getPlayerScore(player),
         currentGame: this.currentMatch.getCurrentGame().getPlayerScore(player),
         isServing: this.currentMatch.getCurrentServer()?.id === player?.id,
+        isWinner: this.currentMatch.getWinner()?.id === player?.id,
       };
     });
   }
@@ -88,6 +89,11 @@ export class ScoreBoardComponent implements OnInit {
     ];
 
     if (this.currentMatch.getWinner()) {
+      columnsToDisplay.splice(
+        columnsToDisplay.indexOf('is-serving'),
+        0,
+        'is-winner'
+      );
       columnsToDisplay.splice(columnsToDisplay.indexOf('is-serving'), 1);
       columnsToDisplay.splice(columnsToDisplay.indexOf('current-game'), 1);
     }
