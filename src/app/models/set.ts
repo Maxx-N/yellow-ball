@@ -4,7 +4,6 @@ import { IPlayer } from './player';
 
 export interface ISet {
   id: string;
-  position: number;
   games: IGame[];
   getMatch(allMatches: IMatch[]): IMatch;
   getCurrentGame(): IGame;
@@ -25,20 +24,16 @@ export interface ISet {
 
 export class Set implements ISet {
   id: string;
-  position: number;
   games: IGame[];
 
   constructor({
-    position,
     players,
     server,
   }: {
-    position: number;
     players: IPlayer[];
     server: IPlayer;
   }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
-    this.position = position;
     this.games = [];
     this.newGame({ players, server, isTieBreak: false });
   }
@@ -114,9 +109,7 @@ export class Set implements ISet {
     server: IPlayer;
     isTieBreak: boolean;
   }): void {
-    const position = this.games.length + 1;
     const newGame: IGame = new Game({
-      position,
       players,
       server,
       isTieBreak,

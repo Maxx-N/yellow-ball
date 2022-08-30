@@ -78,8 +78,7 @@ export class Match implements IMatch {
   }
 
   newSet(server: IPlayer): void {
-    const position = this.sets.length + 1;
-    const newSet: ISet = new Set({ position, players: this.players, server });
+    const newSet: ISet = new Set({ players: this.players, server });
     this.sets.push(newSet);
   }
 

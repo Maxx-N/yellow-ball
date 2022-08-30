@@ -4,7 +4,6 @@ import { ISet } from './set';
 
 export interface IGame {
   id: string;
-  position: number;
   isTieBreak: boolean;
   playerGames: IPlayerGame[];
   getSet(allSets: ISet[]): ISet;
@@ -16,23 +15,19 @@ export interface IGame {
 
 export class Game implements IGame {
   id: string;
-  position: number;
   isTieBreak: boolean;
   playerGames: IPlayerGame[];
 
   constructor({
-    position,
     players,
     server,
     isTieBreak,
   }: {
-    position: number;
     players: IPlayer[];
     server: IPlayer;
     isTieBreak?: boolean;
   }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
-    this.position = position;
     this.playerGames = [];
     this.isTieBreak = isTieBreak;
 
