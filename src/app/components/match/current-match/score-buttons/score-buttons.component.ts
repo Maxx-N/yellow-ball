@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { IMatch } from 'src/app/models/match';
 import { IPlayer } from 'src/app/models/player';
+import { PointProcess } from 'src/app/models/point-process.type';
 import { MatchService } from 'src/app/services/match/match.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class ScoreButtonsComponent implements OnInit {
 
   currentMatch: IMatch;
 
-  constructor(private matchService: MatchService) {}
+  constructor(public matchService: MatchService) {}
 
   ngOnInit(): void {
     this.currentMatch = this.matchService.getCurrentMatch();
@@ -26,7 +27,7 @@ export class ScoreButtonsComponent implements OnInit {
     });
   }
 
-  onWinPoint(player: IPlayer): void {
-    this.matchService.winPoint(player);
+  onTriggerProcess(process: PointProcess, player: IPlayer) {
+    this.matchService.triggerProcess(process, player);
   }
 }

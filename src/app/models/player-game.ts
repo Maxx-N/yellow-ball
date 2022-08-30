@@ -7,6 +7,7 @@ export interface IPlayerGame {
   playerScore: '0' | '15' | '30' | '40' | 'A' | 'W' | number;
   isServing: boolean;
   isTieBreakCurrentServer?: boolean;
+
   acesCount: number;
   firstServesCount: number;
   doubleFaultsCount: number;

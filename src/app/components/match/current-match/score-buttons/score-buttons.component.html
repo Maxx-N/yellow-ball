@@ -13,17 +13,45 @@
       fxLayoutAlign="space-around"
       [ngClass]="{ hidden: currentMatch.getCurrentServer().id !== player.id }"
     >
-      <button mat-raised-button color="primary">Ace</button>
-      <button mat-raised-button color="warn">Fault</button>
+      <button
+        (click)="onTriggerProcess('ace', player)"
+        mat-raised-button
+        color="primary"
+      >
+        Ace
+      </button>
+      <button
+        (click)="onTriggerProcess('fault', player)"
+        mat-raised-button
+        color="warn"
+      >
+        Fault
+      </button>
     </div>
     <div class="winner-button" fxLayout="row" fxLayoutAlign="center">
-      <button mat-raised-button color="primary" (click)="onWinPoint(player)">
+      <button
+        (click)="onTriggerProcess('winner', player)"
+        mat-raised-button
+        color="primary"
+      >
         Winner
       </button>
     </div>
     <div class="error-buttons" fxLayout="row" fxLayoutAlign="space-around">
-      <button mat-raised-button color="warn">Forced Error</button>
-      <button mat-raised-button color="warn">Unforced Error</button>
+      <button
+        (click)="onTriggerProcess('forced-error', player)"
+        mat-raised-button
+        color="warn"
+      >
+        Forced Error
+      </button>
+      <button
+        (click)="onTriggerProcess('unforced-error', player)"
+        mat-raised-button
+        color="warn"
+      >
+        Unforced Error
+      </button>
     </div>
   </div>
 </div>

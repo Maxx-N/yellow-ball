@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
+import * as matchHelpers from 'src/app/helpers/match.helpers';
+import { IGame } from 'src/app/models/game';
 import { IMatch, Match } from 'src/app/models/match';
 import { IPlayer } from 'src/app/models/player';
+import { IPlayerGame } from 'src/app/models/player-game';
+import { IPlayerStats } from 'src/app/models/player-stats';
+import { PointProcess } from 'src/app/models/point-process.type';
 import { PlayerService } from '../player/player.service';
-import * as matchHelpers from 'src/app/helpers/match.helpers';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +16,7 @@ import * as matchHelpers from 'src/app/helpers/match.helpers';
 export class MatchService {
   private currentMatch: IMatch;
   currentMatchSubject = new Subject<IMatch>();
+  isSecondServe: boolean = false;
 
   constructor(private playerService: PlayerService) {}
 
@@ -31,9 +36,165 @@ export class MatchService {
     this.currentMatchSubject.next(this.getCurrentMatch());
   }
 
-  winPoint(player: IPlayer): void {
-    this.currentMatch.addPointToPlayer(player);
+  triggerProcess(process: PointProcess, player: IPlayer) {
+    switch (process) {
+      case 'ace':
+        this.aceProcess(player);
+        break;
+      case 'fault':
+        this.faultProcess(player);
+        break;
+      case 'winner':
+        this.winnerProcess(player);
+        break;
+      case 'forced-error':
+        this.forcedErrorProcess(player);
+        break;
+      case 'unforced-error':
+        this.unforcedErrorProcess(player);
+        break;
+    }
+    if (process !== 'fault') {
+      if (!this.isSecondServe) {
+        const isServer = this.currentMatch.getCurrentServer().id !== player.id;
+        if (isServer) {
+          this.getPlayerGameByPlayer(player).firstServesCount++;
+        }
+      }
+
+      this.isSecondServe = false;
+    }
+    this.getPlayerStats(player);
     this.currentMatchSubject.next(this.getCurrentMatch());
+  }
+
+  getPlayerStats(player: IPlayer): IPlayerStats {
+    // getPlayerStats(player: IPlayer): void {
+    const statKeys: string[] = [
+      'acesCount',
+      'firstServesCount',
+      'doubleFaultsCount',
+      'wonFirstServesCount',
+      'wonSecondServesCount',
+      'wonPointsCount',
+      'wonReceivingPointsCount',
+      'winnerPointsCount',
+      'forcedErrorsCount',
+      'unforcedErrorsCount',
+      'breakPointsCount',
+      'breakPointConversionsCount',
+    ];
+
+    const playerGamesArray = [];
+    for (const set of this.currentMatch.sets) {
+      for (const game of set.games) {
+        const playerGame = game.playerGames.find((playerGame) => {
+          return playerGame.player.id === player.id;
+        });
+        playerGamesArray.push(playerGame);
+      }
+    }
+
+    const stats = { player };
+
+    for (const key of statKeys) {
+      const valuesArray: number[] = playerGamesArray.map((pg) => pg[key]);
+      stats[key] = valuesArray.reduce((initialValue, currentValue) => {
+        return !!currentValue ? initialValue + currentValue : initialValue;
+      });
+    }
+
+    console.log(stats);
+
+    return stats as IPlayerStats;
+  }
+
+  private aceProcess(player: IPlayer): void {
+    const playerGame: IPlayerGame = this.getPlayerGameByPlayer(player);
+    playerGame.acesCount++;
+    this.winPoint(player);
+  }
+
+  private faultProcess(player: IPlayer): void {
+    if (this.isSecondServe) {
+      this.getPlayerGameByPlayer(player).doubleFaultsCount++;
+      this.winPoint(this.getOtherPlayer(player));
+    }
+    this.isSecondServe = !this.isSecondServe;
+  }
+
+  private winnerProcess(player: IPlayer): void {
+    this.getPlayerGameByPlayer(player).winnerPointsCount++;
+    this.winPoint(player);
+  }
+
+  private forcedErrorProcess(player: IPlayer): void {
+    this.getPlayerGameByPlayer(player).forcedErrorsCount++;
+    this.winPoint(this.getOtherPlayer(player));
+  }
+
+  private unforcedErrorProcess(player: IPlayer): void {
+    this.getPlayerGameByPlayer(player).unforcedErrorsCount++;
+    this.winPoint(this.getOtherPlayer(player));
+  }
+
+  private winPoint(player: IPlayer): void {
+    const playerGame: IPlayerGame = this.getPlayerGameByPlayer(player);
+    const isReceiver = this.currentMatch.getCurrentServer().id !== player.id;
+
+    playerGame.wonPointsCount++;
+
+    if (isReceiver) {
+      playerGame.wonReceivingPointsCount++;
+
+      if (this.isBreakPoint()) {
+        playerGame.breakPointConversionsCount++;
+      }
+    }
+
+    this.currentMatch.addPointToPlayer(player);
+    if (this.isBreakPoint()) {
+      this.getPlayerGameByPlayer(player).breakPointsCount++;
+    }
+  }
+
+  private isBreakPoint(): boolean {
+    if (
+      this.currentMatch.getCurrentGame().isTieBreak ||
+      this.currentMatch.players.some(
+        (player) => this.getPlayerScoreInGame(player) === 'W'
+      )
+    ) {
+      return false;
+    }
+
+    const server: IPlayer = this.currentMatch.getCurrentServer();
+    const receiver: IPlayer = this.getOtherPlayer(server);
+    const weakScores: (string | number)[] = ['0', '15', '30'];
+
+    if (weakScores.includes(this.getPlayerScoreInGame(receiver))) {
+      return false;
+    } else {
+      if (this.getPlayerScoreInGame(receiver) === '40') {
+        return weakScores.includes(this.getPlayerScoreInGame(server));
+      } else {
+        return true;
+      }
+    }
+  }
+
+  private getPlayerScoreInGame(player: IPlayer): string | number {
+    return this.getPlayerGameByPlayer(player).playerScore;
+  }
+
+  private getPlayerGameByPlayer(player: IPlayer): IPlayerGame {
+    return this.currentMatch.getCurrentGame().playerGames.find((playerGame) => {
+      return playerGame.player.id === player.id;
+    });
+  }
+
+  private getOtherPlayer(player: IPlayer): IPlayer {
+    return this.currentMatch?.players.find((p) => p.id !== player.id);
   }
 
   private get2PlayersByName(...playerNames: string[]): IPlayer[] {

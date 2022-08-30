@@ -112,7 +112,7 @@ export class Game implements IGame {
 
     const sumOfPoints: number = this.playerGames
       .map((playerTieBreak: PlayerTieBreak) => playerTieBreak.playerScore)
-      .reduce((partialSum, a) => partialSum + a, 0);
+      .reduce((initialValue, currentValue) => initialValue + currentValue,);
 
     if (sumOfPoints % 2 !== 0) {
       for (const playerGame of this.playerGames) {
