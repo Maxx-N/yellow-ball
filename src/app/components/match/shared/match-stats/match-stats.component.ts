@@ -31,12 +31,13 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
   displayStats(currentMach: IMatch): void {
     const initialStats: IPlayerStats[] = this.getPlayerStats(currentMach);
     this.statsToDisplay = [
-      this.getAceStatsPlayer(initialStats),
-      this.getFirstServeStatsPlayer(initialStats),
+      this.getAcesStatsPlayer(initialStats),
+      this.getFirstServesStatsPlayer(initialStats),
+      this.getDoubleFaultsStatsPlayer(initialStats),
     ];
   }
 
-  private getAceStatsPlayer(initialStats: IPlayerStats[]): {
+  private getAcesStatsPlayer(initialStats: IPlayerStats[]): {
     statName: string;
     statPlayers: { displayedData: string; percentageOfTotal: number }[];
   } {
@@ -58,7 +59,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
     };
   }
 
-  private getFirstServeStatsPlayer(initialStats: IPlayerStats[]): {
+  private getFirstServesStatsPlayer(initialStats: IPlayerStats[]): {
     statName: string;
     statPlayers: { displayedData: string; percentageOfTotal: number }[];
   } {
@@ -88,6 +89,28 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
                 otherStatPlayer.firstServesCount,
                 otherStatPlayer.totalServedPointsCount
               )
+          ),
+        };
+      }),
+    };
+  }
+
+  private getDoubleFaultsStatsPlayer(initialStats: IPlayerStats[]): {
+    statName: string;
+    statPlayers: { displayedData: string; percentageOfTotal: number }[];
+  } {
+    return {
+      statName: 'Double Faults',
+      statPlayers: initialStats.map((playerStat) => {
+        const otherStatPlayer = this.getOtherStatPlayer(
+          initialStats,
+          playerStat
+        );
+        return {
+          displayedData: playerStat.doubleFaultsCount.toString(),
+          percentageOfTotal: this.getPercentage(
+            playerStat.doubleFaultsCount,
+            playerStat.doubleFaultsCount + otherStatPlayer.doubleFaultsCount
           ),
         };
       }),
