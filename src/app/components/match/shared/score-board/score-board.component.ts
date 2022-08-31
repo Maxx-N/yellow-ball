@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { IMatch } from 'src/app/models/match';
 import { MatchService } from 'src/app/services/match/match.service';
@@ -8,10 +9,11 @@ import { MatchService } from 'src/app/services/match/match.service';
   templateUrl: './score-board.component.html',
   styleUrls: ['./score-board.component.scss'],
 })
-export class ScoreBoardComponent implements OnInit {
+export class ScoreBoardComponent implements OnInit, OnDestroy {
   currentMatch: IMatch;
   dataSource: any[];
   displayedColumns: string[];
+  private currentMatchSubscription: Subscription;
 
   constructor(private matchService: MatchService) {}
 
@@ -20,6 +22,10 @@ export class ScoreBoardComponent implements OnInit {
     this.matchService.currentMatchSubject.subscribe((match) => {
       this.setCurrentMatch(match);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.currentMatchSubscription.unsubscribe();
   }
 
   private setCurrentMatch(match: IMatch): void {

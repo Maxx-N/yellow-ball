@@ -69,7 +69,6 @@ export class MatchService {
   }
 
   getPlayerStats(player: IPlayer): IPlayerStats {
-    // getPlayerStats(player: IPlayer): void {
     const statKeys: string[] = [
       'acesCount',
       'firstServesCount',
@@ -103,8 +102,6 @@ export class MatchService {
         return !!currentValue ? initialValue + currentValue : initialValue;
       });
     }
-
-    console.log(stats);
 
     return stats as IPlayerStats;
   }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { IMatch } from 'src/app/models/match';
 import { IPlayer } from 'src/app/models/player';
@@ -10,21 +11,26 @@ import { MatchService } from 'src/app/services/match/match.service';
   templateUrl: './score-buttons.component.html',
   styleUrls: ['./score-buttons.component.scss'],
 })
-export class ScoreButtonsComponent implements OnInit {
+export class ScoreButtonsComponent implements OnInit, OnDestroy {
   players: any[] = [
     { name: 'Federer', isServing: true },
     { name: 'Nadal', isServing: false },
   ];
-
   currentMatch: IMatch;
+  private currentMatchSubscription: Subscription;
 
   constructor(public matchService: MatchService) {}
 
   ngOnInit(): void {
     this.currentMatch = this.matchService.getCurrentMatch();
-    this.matchService.currentMatchSubject.subscribe((match) => {
-      this.currentMatch = match;
-    });
+    this.currentMatchSubscription =
+      this.matchService.currentMatchSubject.subscribe((match) => {
+        this.currentMatch = match;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.currentMatchSubscription.unsubscribe();
   }
 
   onTriggerProcess(process: PointProcess, player: IPlayer) {
