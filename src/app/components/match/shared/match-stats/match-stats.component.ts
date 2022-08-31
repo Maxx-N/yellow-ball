@@ -136,20 +136,20 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
         return {
           displayedData: `${this.getPercentage(
             playerStat.wonFirstServesCount,
-            playerStat.totalServedPointsCount
+            playerStat.firstServesCount
           )}%`,
           percentageOfTotal: this.getPercentage(
             this.getPercentage(
               playerStat.wonFirstServesCount,
-              playerStat.totalServedPointsCount
+              playerStat.firstServesCount
             ),
             this.getPercentage(
               playerStat.wonFirstServesCount,
-              playerStat.totalServedPointsCount
+              playerStat.firstServesCount
             ) +
               this.getPercentage(
                 otherStatPlayer.wonFirstServesCount,
-                otherStatPlayer.totalServedPointsCount
+                otherStatPlayer.firstServesCount
               )
           ),
         };
