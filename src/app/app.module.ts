@@ -19,6 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatchStatsComponent } from './components/match/shared/match-stats/match-stats.component';
 import { NewMatchComponent } from './components/match/current-match/new-match/new-match.component';
 import { NewPlayerComponent } from './components/player/new-player/new-player.component';
+import { StatBarComponent } from './components/match/shared/match-stats/stat-bar/stat-bar.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { NewPlayerComponent } from './components/player/new-player/new-player.co
     MatchStatsComponent,
     NewMatchComponent,
     NewPlayerComponent,
+    StatBarComponent,
   ],
   imports: [
     BrowserModule,

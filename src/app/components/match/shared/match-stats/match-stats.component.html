@@ -1,1 +1,13 @@
-<p>match-stats works!</p>
+<div class="match-stats" fxLayout="column" fxLayoutGap="20px">
+  <div fxLayout="row">
+    <div fxFlex="25%"></div>
+    <div fxFlex="75%" fxLayoutAlign="space-between" class="player-names">
+      <span>Player 1</span>
+      <span>Player 2</span>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <span fxFlex="25%" fxLayoutAlign="center">Statistic</span>
+    <app-stat-bar fxFlex="75%"></app-stat-bar>
+  </div>
+</div>

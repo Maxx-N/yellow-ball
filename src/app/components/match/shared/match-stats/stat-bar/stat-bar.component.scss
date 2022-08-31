@@ -1,0 +1,15 @@
+.stat-bar {
+  height: 20px;
+  width: 100%;
+  .player {
+    color: gray;
+    &.player1 {
+      background-color: greenyellow;
+      border-radius: 10px 0 0 10px;
+    }
+    &.player2 {
+      background-color: orange;
+      border-radius: 0 10px 10px 0;
+    }
+  }
+}
