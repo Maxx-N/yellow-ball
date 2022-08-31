@@ -39,6 +39,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
       this.getDoubleFaultsStatsPlayer(initialStats),
       this.getWinOnFirstServesStatsPlayer(initialStats),
       this.getWinOnSecondServesStatsPlayer(initialStats),
+      this.getPointsWonStatsPlayer(initialStats),
     ];
   }
 
@@ -202,6 +203,30 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
       }),
     };
   }
+
+  private getPointsWonStatsPlayer(initialStats: IPlayerStats[]): {
+    statName: string;
+    statPlayers: { displayedData: string; percentageOfTotal: number }[];
+  } {
+    return {
+      statName: 'Points Won',
+      statPlayers: initialStats.map((playerStat) => {
+        const otherStatPlayer = this.getOtherStatPlayer(
+          initialStats,
+          playerStat
+        );
+        return {
+          displayedData: playerStat.wonPointsCount.toString(),
+          percentageOfTotal: this.getPercentage(
+            playerStat.wonPointsCount,
+            playerStat.wonPointsCount + otherStatPlayer.wonPointsCount
+          ),
+        };
+      }),
+    };
+  }
+
+  //
 
   private getOtherStatPlayer(
     initialStats: IPlayerStats[],
