@@ -146,7 +146,9 @@ export class MatchService {
     playerGame.wonPointsCount++;
 
     if (isServer) {
-      if (!this.isSecondServe) {
+      if (this.isSecondServe) {
+        playerGame.wonSecondServesCount++;
+      } else {
         playerGame.wonFirstServesCount++;
       }
     } else {

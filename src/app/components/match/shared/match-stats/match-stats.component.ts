@@ -38,8 +38,17 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
       this.getFirstServesStatsPlayer(initialStats),
       this.getDoubleFaultsStatsPlayer(initialStats),
       this.getWinOnFirstServesStatsPlayer(initialStats),
+      this.getWinOnSecondServesStatsPlayer(initialStats),
     ];
   }
+
+  private getPlayerStats(currentMach: IMatch): IPlayerStats[] {
+    return currentMach.players.map((player) => {
+      return this.matchService.getPlayerStats(player);
+    });
+  }
+
+  // HELPERS
 
   private getAcesStatsPlayer(initialStats: IPlayerStats[]): {
     statName: string;
@@ -157,6 +166,43 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
     };
   }
 
+  private getWinOnSecondServesStatsPlayer(initialStats: IPlayerStats[]): {
+    statName: string;
+    statPlayers: { displayedData: string; percentageOfTotal: number }[];
+  } {
+    return {
+      statName: 'Win % on 2nd Serve %',
+      statPlayers: initialStats.map((playerStat) => {
+        const otherStatPlayer = this.getOtherStatPlayer(
+          initialStats,
+          playerStat
+        );
+        const secondServesCount: number = this.getSecondServesCount(playerStat);
+
+        return {
+          displayedData: `${this.getPercentage(
+            playerStat.wonSecondServesCount,
+            secondServesCount
+          )}%`,
+          percentageOfTotal: this.getPercentage(
+            this.getPercentage(
+              playerStat.wonSecondServesCount,
+              secondServesCount
+            ),
+            this.getPercentage(
+              playerStat.wonSecondServesCount,
+              secondServesCount
+            ) +
+              this.getPercentage(
+                otherStatPlayer.wonSecondServesCount,
+                this.getSecondServesCount(otherStatPlayer)
+              )
+          ),
+        };
+      }),
+    };
+  }
+
   private getOtherStatPlayer(
     initialStats: IPlayerStats[],
     statPlayer: any
@@ -166,16 +212,18 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getPlayerStats(currentMach: IMatch): IPlayerStats[] {
-    return currentMach.players.map((player) => {
-      return this.matchService.getPlayerStats(player);
-    });
-  }
-
   private getPercentage(value: number, total: number): number {
     if (total === 0) {
-      return 100;
+      return 0;
     }
     return Math.round((value / total) * 100);
+  }
+
+  private getSecondServesCount(playerStats: IPlayerStats): number {
+    return (
+      playerStats.totalServedPointsCount -
+      playerStats.firstServesCount -
+      playerStats.doubleFaultsCount
+    );
   }
 }
