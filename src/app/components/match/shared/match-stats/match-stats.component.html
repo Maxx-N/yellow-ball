@@ -8,6 +8,6 @@
   </div>
   <div fxLayout="row" *ngFor="let stat of statsToDisplay">
     <span fxFlex="25%" fxLayoutAlign="center">{{ stat.statName }} </span>
-    <app-stat-bar [statsPlayer]="stat.statsPlayer" fxFlex="75%"></app-stat-bar>
+    <app-stat-bar [statPlayers]="stat.statPlayers" fxFlex="75%"></app-stat-bar>
   </div>
 </div>

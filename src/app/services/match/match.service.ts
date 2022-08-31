@@ -54,20 +54,21 @@ export class MatchService {
         break;
     }
 
+    const server: IPlayer = this.currentMatch.getCurrentServer();
+
     if (!this.isSecondServe) {
-      this.getPlayerGameByPlayer(this.currentMatch.getCurrentServer())
-        .totalServedPointsCount++;
-
+      this.getPlayerGameByPlayer(server).totalServedPointsCount++;
       if (process !== 'fault') {
-        const isServer = this.currentMatch.getCurrentServer().id === player.id;
-        if (isServer) {
-          this.getPlayerGameByPlayer(player).firstServesCount++;
-        }
+        this.getPlayerGameByPlayer(server).firstServesCount++;
       }
+    }
 
+    if (process === 'fault') {
+      this.isSecondServe = !this.isSecondServe;
+    } else {
       this.isSecondServe = false;
     }
-    this.getPlayerStats(player);
+
     this.currentMatchSubject.next(this.getCurrentMatch());
   }
 
@@ -85,6 +86,7 @@ export class MatchService {
       'unforcedErrorsCount',
       'breakPointsCount',
       'breakPointConversionsCount',
+      'totalServedPointsCount',
     ];
 
     const playerGamesArray = [];
@@ -109,10 +111,6 @@ export class MatchService {
     return stats as IPlayerStats;
   }
 
-  getOtherPlayer(player: IPlayer): IPlayer {
-    return this.currentMatch?.players.find((p) => p.id !== player.id);
-  }
-
   private aceProcess(player: IPlayer): void {
     const playerGame: IPlayerGame = this.getPlayerGameByPlayer(player);
     playerGame.acesCount++;
@@ -124,7 +122,6 @@ export class MatchService {
       this.getPlayerGameByPlayer(player).doubleFaultsCount++;
       this.winPoint(this.getOtherPlayer(player));
     }
-    this.isSecondServe = !this.isSecondServe;
   }
 
   private winnerProcess(player: IPlayer): void {
@@ -195,6 +192,10 @@ export class MatchService {
     return this.currentMatch.getCurrentGame().playerGames.find((playerGame) => {
       return playerGame.player.id === player.id;
     });
+  }
+
+  private getOtherPlayer(player: IPlayer): IPlayer {
+    return this.currentMatch?.players.find((p) => p.id !== player.id);
   }
 
   private get2PlayersByName(...playerNames: string[]): IPlayer[] {

@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./stat-bar.component.scss'],
 })
 export class StatBarComponent implements OnInit {
-  @Input() statsPlayer: any[];
+  @Input() statPlayers: any[];
 
   constructor() {}
 

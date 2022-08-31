@@ -1,6 +1,6 @@
 <div class="stat-bar" fxLayout="row">
   <div
-    *ngFor="let statPlayer of statsPlayer; let index = index"
+    *ngFor="let statPlayer of statPlayers; let index = index"
     class="player"
     [ngClass]="{ player1: index === 0, player2: index === 1 }"
     [fxFlex]="statPlayer.percentageOfTotal + '%'"

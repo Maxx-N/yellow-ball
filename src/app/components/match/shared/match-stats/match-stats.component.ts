@@ -30,28 +30,89 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
 
   displayStats(currentMach: IMatch): void {
     const initialStats: IPlayerStats[] = this.getPlayerStats(currentMach);
-    const finalStats: any[] = [
-      {
-        statName: 'Aces',
-        statsPlayer: initialStats.map((stat) => {
-          return {
-            displayedData: stat.acesCount,
-            percentageOfTotal:
-              (stat.acesCount /
-                (stat.acesCount +
-                  initialStats.find((s) => s.player.id !== stat.player.id)
-                    .acesCount)) *
-              100,
-          };
-        }),
-      },
+    this.statsToDisplay = [
+      this.getAceStatsPlayer(initialStats),
+      this.getFirstServeStatsPlayer(initialStats),
     ];
-    this.statsToDisplay = finalStats;
+  }
+
+  private getAceStatsPlayer(initialStats: IPlayerStats[]): {
+    statName: string;
+    statPlayers: { displayedData: string; percentageOfTotal: number }[];
+  } {
+    return {
+      statName: 'Aces',
+      statPlayers: initialStats.map((playerStat) => {
+        const otherStatPlayer = this.getOtherStatPlayer(
+          initialStats,
+          playerStat
+        );
+        return {
+          displayedData: playerStat.acesCount.toString(),
+          percentageOfTotal: this.getPercentage(
+            playerStat.acesCount,
+            playerStat.acesCount + otherStatPlayer.acesCount
+          ),
+        };
+      }),
+    };
+  }
+
+  private getFirstServeStatsPlayer(initialStats: IPlayerStats[]): {
+    statName: string;
+    statPlayers: { displayedData: string; percentageOfTotal: number }[];
+  } {
+    return {
+      statName: '1st Serve %',
+      statPlayers: initialStats.map((playerStat) => {
+        const otherStatPlayer = this.getOtherStatPlayer(
+          initialStats,
+          playerStat
+        );
+
+        return {
+          displayedData: `${this.getPercentage(
+            playerStat.firstServesCount,
+            playerStat.totalServedPointsCount
+          )}%`,
+          percentageOfTotal: this.getPercentage(
+            this.getPercentage(
+              playerStat.firstServesCount,
+              playerStat.totalServedPointsCount
+            ),
+            this.getPercentage(
+              playerStat.firstServesCount,
+              playerStat.totalServedPointsCount
+            ) +
+              this.getPercentage(
+                otherStatPlayer.firstServesCount,
+                otherStatPlayer.totalServedPointsCount
+              )
+          ),
+        };
+      }),
+    };
+  }
+
+  private getOtherStatPlayer(
+    initialStats: IPlayerStats[],
+    statPlayer: any
+  ): any {
+    return initialStats.find((sp) => {
+      return sp.player.id !== statPlayer.player.id;
+    });
   }
 
   private getPlayerStats(currentMach: IMatch): IPlayerStats[] {
     return currentMach.players.map((player) => {
       return this.matchService.getPlayerStats(player);
     });
+  }
+
+  private getPercentage(value: number, total: number): number {
+    if (total === 0) {
+      return 100;
+    }
+    return Math.round((value / total) * 100);
   }
 }
