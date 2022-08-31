@@ -36,6 +36,8 @@ export class MatchService {
   }
 
   triggerProcess(process: PointProcess, player: IPlayer) {
+    const server: IPlayer = this.currentMatch.getCurrentServer();
+
     switch (process) {
       case 'ace':
         this.aceProcess(player);
@@ -54,10 +56,9 @@ export class MatchService {
         break;
     }
 
-    const server: IPlayer = this.currentMatch.getCurrentServer();
-
     if (!this.isSecondServe) {
       this.getPlayerGameByPlayer(server).totalServedPointsCount++;
+      console.log(this.getPlayerGameByPlayer(server).totalServedPointsCount);
       if (process !== 'fault') {
         this.getPlayerGameByPlayer(server).firstServesCount++;
       }

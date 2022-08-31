@@ -32,14 +32,15 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
 
   displayStats(currentMach: IMatch): void {
     this.players = currentMach.players;
-    const initialStats: IPlayerStats[] = this.getPlayerStats(currentMach);
+    const allPlayerStats: IPlayerStats[] = this.getPlayerStats(currentMach);
     this.statsToDisplay = [
-      this.getAcesStatsPlayer(initialStats),
-      this.getFirstServesStatsPlayer(initialStats),
-      this.getDoubleFaultsStatsPlayer(initialStats),
-      this.getWinOnFirstServesStatsPlayer(initialStats),
-      this.getWinOnSecondServesStatsPlayer(initialStats),
-      this.getPointsWonStatsPlayer(initialStats),
+      this.getAcesStatsPlayer(allPlayerStats),
+      this.getFirstServesStatsPlayer(allPlayerStats),
+      this.getDoubleFaultsStatsPlayer(allPlayerStats),
+      this.getWinOnFirstServesStatsPlayer(allPlayerStats),
+      this.getWinOnSecondServesStatsPlayer(allPlayerStats),
+      this.getPointsWonStatsPlayer(allPlayerStats),
+      this.getReceivingPointsWonStatsPlayer(allPlayerStats),
     ];
   }
 
@@ -58,7 +59,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
     return {
       statName: 'Aces',
       statPlayers: initialStats.map((playerStat) => {
-        const otherStatPlayer = this.getOtherStatPlayer(
+        const otherStatPlayer = this.getOtherPlayerStat(
           initialStats,
           playerStat
         );
@@ -80,7 +81,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
     return {
       statName: '1st Serve %',
       statPlayers: initialStats.map((playerStat) => {
-        const otherStatPlayer = this.getOtherStatPlayer(
+        const otherStatPlayer = this.getOtherPlayerStat(
           initialStats,
           playerStat
         );
@@ -116,7 +117,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
     return {
       statName: 'Double Faults',
       statPlayers: initialStats.map((playerStat) => {
-        const otherStatPlayer = this.getOtherStatPlayer(
+        const otherStatPlayer = this.getOtherPlayerStat(
           initialStats,
           playerStat
         );
@@ -138,7 +139,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
     return {
       statName: 'Win % on 1st Serve %',
       statPlayers: initialStats.map((playerStat) => {
-        const otherStatPlayer = this.getOtherStatPlayer(
+        const otherStatPlayer = this.getOtherPlayerStat(
           initialStats,
           playerStat
         );
@@ -174,7 +175,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
     return {
       statName: 'Win % on 2nd Serve %',
       statPlayers: initialStats.map((playerStat) => {
-        const otherStatPlayer = this.getOtherStatPlayer(
+        const otherStatPlayer = this.getOtherPlayerStat(
           initialStats,
           playerStat
         );
@@ -211,7 +212,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
     return {
       statName: 'Points Won',
       statPlayers: initialStats.map((playerStat) => {
-        const otherStatPlayer = this.getOtherStatPlayer(
+        const otherStatPlayer = this.getOtherPlayerStat(
           initialStats,
           playerStat
         );
@@ -226,14 +227,54 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
     };
   }
 
+  private getReceivingPointsWonStatsPlayer(allPlayerStats: IPlayerStats[]): {
+    statName: string;
+    statPlayers: { displayedData: string; percentageOfTotal: number }[];
+  } {
+    return {
+      statName: 'Receiving Points Won %',
+      statPlayers: allPlayerStats.map((playerStat) => {
+        const otherPlayerStat = this.getOtherPlayerStat(
+          allPlayerStats,
+          playerStat
+        );
+        const receivedPointsCount: number = this.getReceivedPointsCount(
+          allPlayerStats,
+          playerStat
+        );
+
+        return {
+          displayedData: `${this.getPercentage(
+            playerStat.wonReceivingPointsCount,
+            receivedPointsCount
+          )}%`,
+          percentageOfTotal: this.getPercentage(
+            this.getPercentage(
+              playerStat.wonReceivingPointsCount,
+              receivedPointsCount
+            ),
+            this.getPercentage(
+              playerStat.wonReceivingPointsCount,
+              receivedPointsCount
+            ) +
+              this.getPercentage(
+                otherPlayerStat.wonReceivingPointsCount,
+                this.getReceivedPointsCount(allPlayerStats, otherPlayerStat)
+              )
+          ),
+        };
+      }),
+    };
+  }
+
   //
 
-  private getOtherStatPlayer(
-    initialStats: IPlayerStats[],
-    statPlayer: any
-  ): any {
-    return initialStats.find((sp) => {
-      return sp.player.id !== statPlayer.player.id;
+  private getOtherPlayerStat(
+    allPlayerStats: IPlayerStats[],
+    playerStat: IPlayerStats
+  ): IPlayerStats {
+    return allPlayerStats.find((ps) => {
+      return ps.player.id !== playerStat.player.id;
     });
   }
 
@@ -250,5 +291,20 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
       playerStats.firstServesCount -
       playerStats.doubleFaultsCount
     );
+  }
+
+  private getReceivedPointsCount(
+    allPlayerStats: IPlayerStats[],
+    playerStat: IPlayerStats
+  ): number {
+    const pointsCount: number = allPlayerStats
+      .map((playerStat) => {
+        return playerStat.winnerPointsCount;
+      })
+      .reduce((player1win, player2win) => {
+        return player1win + player2win;
+      });
+
+    return pointsCount - playerStat.totalServedPointsCount;
   }
 }
