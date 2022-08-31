@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IMatch } from 'src/app/models/match';
-import { IPlayerStats } from 'src/app/models/player-stats';
 
+import { IMatch } from 'src/app/models/match';
+import { IPlayer } from 'src/app/models/player';
+import { IPlayerStats } from 'src/app/models/player-stats';
 import { MatchService } from 'src/app/services/match/match.service';
 
 @Component({
@@ -12,6 +13,7 @@ import { MatchService } from 'src/app/services/match/match.service';
 })
 export class MatchStatsComponent implements OnInit, OnDestroy {
   statsToDisplay: any[];
+  players: IPlayer[];
   private currentMatchSubscription: Subscription;
 
   constructor(private matchService: MatchService) {}
@@ -29,6 +31,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
   }
 
   displayStats(currentMach: IMatch): void {
+    this.players = currentMach.players;
     const initialStats: IPlayerStats[] = this.getPlayerStats(currentMach);
     this.statsToDisplay = [
       this.getAcesStatsPlayer(initialStats),

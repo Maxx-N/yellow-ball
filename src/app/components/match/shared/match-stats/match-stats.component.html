@@ -2,8 +2,12 @@
   <div fxLayout="row">
     <div fxFlex="25%"></div>
     <div fxFlex="75%" fxLayoutAlign="space-between" class="player-names">
-      <span>Player 1</span>
-      <span>Player 2</span>
+      <span
+        *ngFor="let player of players; let index = index"
+        [ngClass]="{ player1: index === 0, player2: index === 1 }"
+      >
+        {{ player.firstName }} {{ player.lastName }}</span
+      >
     </div>
   </div>
   <div fxLayout="row" *ngFor="let stat of statsToDisplay">

@@ -3,5 +3,12 @@
 
   .player-names {
     margin: 0 10px;
+
+    .player1 {
+      border-bottom: 3px solid greenyellow;
+    }
+    .player2 {
+      border-bottom: 3px solid orange;
+    }
   }
 }
