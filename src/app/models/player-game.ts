@@ -24,7 +24,8 @@ export class PlayerGame implements IPlayerGame {
   winnerPointsCount: number;
   forcedErrorsCount: number;
   unforcedErrorsCount: number;
-  breakPointsCount: number;
+  totalBreakPointsCount: number;
+  playedBreakPointsCount: number;
   breakPointConversionsCount: number;
   totalServedPointsCount: number;
 
@@ -44,7 +45,8 @@ export class PlayerGame implements IPlayerGame {
     this.winnerPointsCount = 0;
     this.forcedErrorsCount = 0;
     this.unforcedErrorsCount = 0;
-    this.breakPointsCount = 0;
+    this.totalBreakPointsCount = 0;
+    this.playedBreakPointsCount = 0;
     this.breakPointConversionsCount = 0;
     this.totalServedPointsCount = 0;
   }
@@ -66,7 +68,8 @@ export class PlayerTieBreak implements IPlayerGame {
   winnerPointsCount: number;
   forcedErrorsCount: number;
   unforcedErrorsCount: number;
-  breakPointsCount: number = 0;
+  totalBreakPointsCount: number = 0;
+  playedBreakPointsCount: number = 0;
   breakPointConversionsCount: number = 0;
   totalServedPointsCount: number;
 

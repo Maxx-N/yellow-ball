@@ -16,6 +16,7 @@ export class MatchService {
   private currentMatch: IMatch;
   currentMatchSubject = new Subject<IMatch>();
   isSecondServe: boolean = false;
+  previousBreakPoints: number = 0;
 
   constructor(private playerService: PlayerService) {}
 
@@ -87,7 +88,8 @@ export class MatchService {
       'winnerPointsCount',
       'forcedErrorsCount',
       'unforcedErrorsCount',
-      'breakPointsCount',
+      'totalBreakPointsCount',
+      'playedBreakPointsCount',
       'breakPointConversionsCount',
       'totalServedPointsCount',
     ];
@@ -162,9 +164,15 @@ export class MatchService {
       }
     }
 
-    this.currentMatch.addPointToPlayer(player);
     if (this.isBreakPoint()) {
-      this.getPlayerGameByPlayer(player).breakPointsCount++;
+      this.getPlayerGameByPlayer(player).playedBreakPointsCount++;
+    }
+
+    this.currentMatch.addPointToPlayer(player);
+
+    if (!isServer) {
+      const breakPoints: number = this.calculateBreakPoints();
+      this.getPlayerGameByPlayer(player).totalBreakPointsCount += breakPoints;
     }
   }
 
@@ -190,6 +198,26 @@ export class MatchService {
       } else {
         return true;
       }
+    }
+  }
+
+  private calculateBreakPoints(): number {
+    const server: IPlayer = this.currentMatch.getCurrentServer();
+    const receiver: IPlayer = this.getOtherPlayer(server);
+
+    if (this.isBreakPoint()) {
+      const server: IPlayer = this.currentMatch.getCurrentServer();
+
+      switch (this.getPlayerScoreInGame(server)) {
+        case '0':
+          return 3;
+        case '15':
+          return 2;
+        default:
+          return 1;
+      }
+    } else {
+      return 0;
     }
   }
 

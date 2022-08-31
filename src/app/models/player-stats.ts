@@ -12,7 +12,8 @@ export interface IPlayerStats {
   winnerPointsCount: number;
   forcedErrorsCount: number;
   unforcedErrorsCount: number;
-  breakPointsCount: number;
+  totalBreakPointsCount: number;
+  playedBreakPointsCount: number;
   breakPointConversionsCount: number;
   totalServedPointsCount: number;
 }

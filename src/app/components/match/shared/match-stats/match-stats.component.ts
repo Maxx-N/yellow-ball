@@ -44,6 +44,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
       this.getWinnersStatsPlayer(allPlayerStats),
       this.getForcedErrorsStatsPlayer(allPlayerStats),
       this.getUnforcedErrorsStatsPlayer(allPlayerStats),
+      this.getBreakPointsStatsPlayer(allPlayerStats),
     ];
   }
 
@@ -330,6 +331,29 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
           percentageOfTotal: this.getPercentage(
             playerStat.unforcedErrorsCount,
             playerStat.unforcedErrorsCount + otherStatPlayer.unforcedErrorsCount
+          ),
+        };
+      }),
+    };
+  }
+
+  private getBreakPointsStatsPlayer(initialStats: IPlayerStats[]): {
+    statName: string;
+    statPlayers: { displayedData: string; percentageOfTotal: number }[];
+  } {
+    return {
+      statName: 'Break Points',
+      statPlayers: initialStats.map((playerStat) => {
+        const otherStatPlayer = this.getOtherPlayerStat(
+          initialStats,
+          playerStat
+        );
+        return {
+          displayedData: playerStat.totalBreakPointsCount.toString(),
+          percentageOfTotal: this.getPercentage(
+            playerStat.totalBreakPointsCount,
+            playerStat.totalBreakPointsCount +
+              otherStatPlayer.totalBreakPointsCount
           ),
         };
       }),
