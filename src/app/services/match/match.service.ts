@@ -141,11 +141,15 @@ export class MatchService {
 
   private winPoint(player: IPlayer): void {
     const playerGame: IPlayerGame = this.getPlayerGameByPlayer(player);
-    const isReceiver = this.currentMatch.getCurrentServer().id !== player.id;
+    const isServer = this.currentMatch.getCurrentServer().id === player.id;
 
     playerGame.wonPointsCount++;
 
-    if (isReceiver) {
+    if (isServer) {
+      if (!this.isSecondServe) {
+        playerGame.wonFirstServesCount++;
+      }
+    } else {
       playerGame.wonReceivingPointsCount++;
 
       if (this.isBreakPoint()) {

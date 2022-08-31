@@ -37,6 +37,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
       this.getAcesStatsPlayer(initialStats),
       this.getFirstServesStatsPlayer(initialStats),
       this.getDoubleFaultsStatsPlayer(initialStats),
+      this.getWinOnFirstServesStatsPlayer(initialStats),
     ];
   }
 
@@ -114,6 +115,42 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
           percentageOfTotal: this.getPercentage(
             playerStat.doubleFaultsCount,
             playerStat.doubleFaultsCount + otherStatPlayer.doubleFaultsCount
+          ),
+        };
+      }),
+    };
+  }
+
+  private getWinOnFirstServesStatsPlayer(initialStats: IPlayerStats[]): {
+    statName: string;
+    statPlayers: { displayedData: string; percentageOfTotal: number }[];
+  } {
+    return {
+      statName: 'Win % on 1st Serve %',
+      statPlayers: initialStats.map((playerStat) => {
+        const otherStatPlayer = this.getOtherStatPlayer(
+          initialStats,
+          playerStat
+        );
+
+        return {
+          displayedData: `${this.getPercentage(
+            playerStat.wonFirstServesCount,
+            playerStat.totalServedPointsCount
+          )}%`,
+          percentageOfTotal: this.getPercentage(
+            this.getPercentage(
+              playerStat.wonFirstServesCount,
+              playerStat.totalServedPointsCount
+            ),
+            this.getPercentage(
+              playerStat.wonFirstServesCount,
+              playerStat.totalServedPointsCount
+            ) +
+              this.getPercentage(
+                otherStatPlayer.wonFirstServesCount,
+                otherStatPlayer.totalServedPointsCount
+              )
           ),
         };
       }),
