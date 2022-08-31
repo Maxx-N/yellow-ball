@@ -1,27 +1,21 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="player-name">
-    <td
-      mat-cell
-      *matCellDef="let element"
-    >
+    <td mat-cell *matCellDef="let element">
       {{ element.playerName }}
     </td>
   </ng-container>
-  <ng-container matColumnDef="is-serving" >
-    <td
-      mat-cell
-      *matCellDef="let element"
-    >
-    <mat-icon *ngIf="element.isServing">sports_tennis</mat-icon>
-  </td>
+  <ng-container matColumnDef="is-serving">
+    <td mat-cell *matCellDef="let element">
+      <div *ngIf="element.isServing" fxLayoutAlign="space-between center">
+        <mat-icon>sports_tennis</mat-icon>
+        <span *ngIf="isSecondServe">2nd</span>
+      </div>
+    </td>
   </ng-container>
-  <ng-container matColumnDef="is-winner" >
-    <td
-      mat-cell
-      *matCellDef="let element"
-    >
-    <span class="winner" *ngIf="element.isWinner">WINNER</span>
-  </td>
+  <ng-container matColumnDef="is-winner">
+    <td mat-cell *matCellDef="let element">
+      <span class="winner" *ngIf="element.isWinner">WINNER</span>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="first-set">

@@ -13,6 +13,7 @@ export class ScoreBoardComponent implements OnInit, OnDestroy {
   currentMatch: IMatch;
   dataSource: any[];
   displayedColumns: string[];
+  isSecondServe: boolean = false;
   private currentMatchSubscription: Subscription;
 
   constructor(private matchService: MatchService) {}
@@ -30,6 +31,7 @@ export class ScoreBoardComponent implements OnInit, OnDestroy {
 
   private setCurrentMatch(match: IMatch): void {
     this.currentMatch = match;
+    this.isSecondServe = this.matchService.isSecondServe;
     this.setDataSource();
     this.setDisplayedColumns();
   }
