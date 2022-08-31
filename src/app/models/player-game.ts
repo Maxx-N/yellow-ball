@@ -1,6 +1,7 @@
 import { IPlayer } from './player';
+import { IPlayerStats } from './player-stats';
 
-export interface IPlayerGame {
+export interface IPlayerGame extends IPlayerStats {
   id: string;
   player: IPlayer;
   playerScore: '0' | '15' | '30' | '40' | 'A' | 'W' | number;
@@ -17,8 +18,8 @@ export interface IPlayerGame {
   winnerPointsCount: number;
   forcedErrorsCount: number;
   unforcedErrorsCount: number;
-  breakPointsCount?: number;
-  breakPointConversionsCount?: number;
+  breakPointsCount: number;
+  breakPointConversionsCount: number;
 }
 
 export class PlayerGame implements IPlayerGame {
@@ -76,6 +77,8 @@ export class PlayerTieBreak implements IPlayerGame {
   winnerPointsCount: number;
   forcedErrorsCount: number;
   unforcedErrorsCount: number;
+  breakPointsCount: number = 0;
+  breakPointConversionsCount: number = 0;
 
   constructor({ player, isServing }: { player: IPlayer; isServing?: boolean }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
