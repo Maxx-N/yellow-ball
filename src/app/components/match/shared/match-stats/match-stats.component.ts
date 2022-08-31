@@ -42,6 +42,8 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
       this.getPointsWonStatsPlayer(allPlayerStats),
       this.getReceivingPointsWonStatsPlayer(allPlayerStats),
       this.getWinnersStatsPlayer(allPlayerStats),
+      this.getForcedErrorsStatsPlayer(allPlayerStats),
+      this.getUnforcedErrorsStatsPlayer(allPlayerStats),
     ];
   }
 
@@ -284,6 +286,50 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
           percentageOfTotal: this.getPercentage(
             playerStat.winnerPointsCount,
             playerStat.winnerPointsCount + otherStatPlayer.winnerPointsCount
+          ),
+        };
+      }),
+    };
+  }
+
+  private getForcedErrorsStatsPlayer(initialStats: IPlayerStats[]): {
+    statName: string;
+    statPlayers: { displayedData: string; percentageOfTotal: number }[];
+  } {
+    return {
+      statName: 'Forced Errors',
+      statPlayers: initialStats.map((playerStat) => {
+        const otherStatPlayer = this.getOtherPlayerStat(
+          initialStats,
+          playerStat
+        );
+        return {
+          displayedData: playerStat.forcedErrorsCount.toString(),
+          percentageOfTotal: this.getPercentage(
+            playerStat.forcedErrorsCount,
+            playerStat.forcedErrorsCount + otherStatPlayer.forcedErrorsCount
+          ),
+        };
+      }),
+    };
+  }
+
+  private getUnforcedErrorsStatsPlayer(initialStats: IPlayerStats[]): {
+    statName: string;
+    statPlayers: { displayedData: string; percentageOfTotal: number }[];
+  } {
+    return {
+      statName: 'Unforced Errors',
+      statPlayers: initialStats.map((playerStat) => {
+        const otherStatPlayer = this.getOtherPlayerStat(
+          initialStats,
+          playerStat
+        );
+        return {
+          displayedData: playerStat.unforcedErrorsCount.toString(),
+          percentageOfTotal: this.getPercentage(
+            playerStat.unforcedErrorsCount,
+            playerStat.unforcedErrorsCount + otherStatPlayer.unforcedErrorsCount
           ),
         };
       }),
