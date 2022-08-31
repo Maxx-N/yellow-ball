@@ -7,19 +7,6 @@ export interface IPlayerGame extends IPlayerStats {
   playerScore: '0' | '15' | '30' | '40' | 'A' | 'W' | number;
   isServing: boolean;
   isTieBreakCurrentServer?: boolean;
-
-  acesCount: number;
-  firstServesCount: number;
-  doubleFaultsCount: number;
-  wonFirstServesCount: number;
-  wonSecondServesCount: number;
-  wonPointsCount: number;
-  wonReceivingPointsCount: number;
-  winnerPointsCount: number;
-  forcedErrorsCount: number;
-  unforcedErrorsCount: number;
-  breakPointsCount: number;
-  breakPointConversionsCount: number;
 }
 
 export class PlayerGame implements IPlayerGame {
@@ -39,6 +26,7 @@ export class PlayerGame implements IPlayerGame {
   unforcedErrorsCount: number;
   breakPointsCount: number;
   breakPointConversionsCount: number;
+  totalServedPointsCount: number;
 
   constructor({ player, isServing }: { player: IPlayer; isServing?: boolean }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
@@ -58,6 +46,7 @@ export class PlayerGame implements IPlayerGame {
     this.unforcedErrorsCount = 0;
     this.breakPointsCount = 0;
     this.breakPointConversionsCount = 0;
+    this.totalServedPointsCount = 0;
   }
 }
 
@@ -79,6 +68,7 @@ export class PlayerTieBreak implements IPlayerGame {
   unforcedErrorsCount: number;
   breakPointsCount: number = 0;
   breakPointConversionsCount: number = 0;
+  totalServedPointsCount: number;
 
   constructor({ player, isServing }: { player: IPlayer; isServing?: boolean }) {
     this.id = Math.floor(Math.random() * 1000000).toString();
@@ -97,5 +87,6 @@ export class PlayerTieBreak implements IPlayerGame {
     this.winnerPointsCount = 0;
     this.forcedErrorsCount = 0;
     this.unforcedErrorsCount = 0;
+    this.totalServedPointsCount = 0;
   }
 }

@@ -1,4 +1,4 @@
-import { IPlayer } from "./player";
+import { IPlayer } from './player';
 
 export interface IPlayerStats {
   player: IPlayer;
@@ -14,4 +14,5 @@ export interface IPlayerStats {
   unforcedErrorsCount: number;
   breakPointsCount: number;
   breakPointConversionsCount: number;
+  totalServedPointsCount: number;
 }

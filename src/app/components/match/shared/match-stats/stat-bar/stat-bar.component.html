@@ -1,4 +1,11 @@
 <div class="stat-bar" fxLayout="row">
-  <div class="player player1" fxFlex="50%" fxLayoutAlign="center">50%</div>
-  <div class="player player2" fxFlex="50%" fxLayoutAlign="center">50%</div>
+  <div
+    *ngFor="let statPlayer of statsPlayer; let index = index"
+    class="player"
+    [ngClass]="{ player1: index === 0, player2: index === 1 }"
+    [fxFlex]="statPlayer.percentageOfTotal + '%'"
+    fxLayoutAlign="center"
+  >
+    {{ statPlayer.displayedData }}
+  </div>
 </div>

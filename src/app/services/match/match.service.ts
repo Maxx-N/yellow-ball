@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import * as matchHelpers from 'src/app/helpers/match.helpers';
-import { IGame } from 'src/app/models/game';
 import { IMatch, Match } from 'src/app/models/match';
 import { IPlayer } from 'src/app/models/player';
 import { IPlayerGame } from 'src/app/models/player-game';
@@ -54,9 +53,13 @@ export class MatchService {
         this.unforcedErrorProcess(player);
         break;
     }
-    if (process !== 'fault') {
-      if (!this.isSecondServe) {
-        const isServer = this.currentMatch.getCurrentServer().id !== player.id;
+
+    if (!this.isSecondServe) {
+      this.getPlayerGameByPlayer(this.currentMatch.getCurrentServer())
+        .totalServedPointsCount++;
+
+      if (process !== 'fault') {
+        const isServer = this.currentMatch.getCurrentServer().id === player.id;
         if (isServer) {
           this.getPlayerGameByPlayer(player).firstServesCount++;
         }
@@ -104,6 +107,10 @@ export class MatchService {
     }
 
     return stats as IPlayerStats;
+  }
+
+  getOtherPlayer(player: IPlayer): IPlayer {
+    return this.currentMatch?.players.find((p) => p.id !== player.id);
   }
 
   private aceProcess(player: IPlayer): void {
@@ -188,10 +195,6 @@ export class MatchService {
     return this.currentMatch.getCurrentGame().playerGames.find((playerGame) => {
       return playerGame.player.id === player.id;
     });
-  }
-
-  private getOtherPlayer(player: IPlayer): IPlayer {
-    return this.currentMatch?.players.find((p) => p.id !== player.id);
   }
 
   private get2PlayersByName(...playerNames: string[]): IPlayer[] {
