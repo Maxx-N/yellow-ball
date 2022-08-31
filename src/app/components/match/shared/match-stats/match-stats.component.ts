@@ -41,6 +41,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
       this.getWinOnSecondServesStatsPlayer(allPlayerStats),
       this.getPointsWonStatsPlayer(allPlayerStats),
       this.getReceivingPointsWonStatsPlayer(allPlayerStats),
+      this.getWinnersStatsPlayer(allPlayerStats),
     ];
   }
 
@@ -267,6 +268,28 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
     };
   }
 
+  private getWinnersStatsPlayer(initialStats: IPlayerStats[]): {
+    statName: string;
+    statPlayers: { displayedData: string; percentageOfTotal: number }[];
+  } {
+    return {
+      statName: 'Winners',
+      statPlayers: initialStats.map((playerStat) => {
+        const otherStatPlayer = this.getOtherPlayerStat(
+          initialStats,
+          playerStat
+        );
+        return {
+          displayedData: playerStat.winnerPointsCount.toString(),
+          percentageOfTotal: this.getPercentage(
+            playerStat.winnerPointsCount,
+            playerStat.winnerPointsCount + otherStatPlayer.winnerPointsCount
+          ),
+        };
+      }),
+    };
+  }
+
   //
 
   private getOtherPlayerStat(
@@ -299,7 +322,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
   ): number {
     const pointsCount: number = allPlayerStats
       .map((playerStat) => {
-        return playerStat.winnerPointsCount;
+        return playerStat.wonPointsCount;
       })
       .reduce((player1win, player2win) => {
         return player1win + player2win;

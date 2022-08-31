@@ -57,11 +57,13 @@ export class MatchService {
     }
 
     if (!this.isSecondServe) {
-      this.getPlayerGameByPlayer(server).totalServedPointsCount++;
-      console.log(this.getPlayerGameByPlayer(server).totalServedPointsCount);
       if (process !== 'fault') {
         this.getPlayerGameByPlayer(server).firstServesCount++;
       }
+    }
+
+    if (process !== 'fault' || (process === 'fault' && this.isSecondServe)) {
+      this.getPlayerGameByPlayer(server).totalServedPointsCount++;
     }
 
     if (process === 'fault') {
