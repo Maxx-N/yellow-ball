@@ -20,6 +20,7 @@ import { MatchStatsComponent } from './components/match/shared/match-stats/match
 import { NewMatchComponent } from './components/match/current-match/new-match/new-match.component';
 import { NewPlayerComponent } from './components/player/new-player/new-player.component';
 import { StatBarComponent } from './components/match/shared/match-stats/stat-bar/stat-bar.component';
+import { StoreModule } from '@ngrx/store';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { StatBarComponent } from './components/match/shared/match-stats/stat-bar
     AppRoutingModule,
     MaterialModule,
     FlexLayoutModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [],
   bootstrap: [AppComponent],
