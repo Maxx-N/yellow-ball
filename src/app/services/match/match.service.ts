@@ -38,6 +38,11 @@ export class MatchService {
 
   triggerProcess(process: PointProcess, player: IPlayer) {
     const server: IPlayer = this.currentMatch.getCurrentServer();
+    const receiver: IPlayer = this.getOtherPlayer(server);
+
+    if (this.isBreakPoint()) {
+      this.getPlayerGameByPlayer(receiver).playedBreakPointsCount++;
+    }
 
     switch (process) {
       case 'ace':
@@ -57,10 +62,8 @@ export class MatchService {
         break;
     }
 
-    if (!this.isSecondServe) {
-      if (process !== 'fault') {
-        this.getPlayerGameByPlayer(server).firstServesCount++;
-      }
+    if (process !== 'fault' && !this.isSecondServe) {
+      this.getPlayerGameByPlayer(server).firstServesCount++;
     }
 
     if (process !== 'fault' || (process === 'fault' && this.isSecondServe)) {
@@ -164,15 +167,12 @@ export class MatchService {
       }
     }
 
-    if (this.isBreakPoint()) {
-      this.getPlayerGameByPlayer(player).playedBreakPointsCount++;
-    }
-
     this.currentMatch.addPointToPlayer(player);
 
     if (!isServer) {
-      const breakPoints: number = this.calculateBreakPoints();
-      this.getPlayerGameByPlayer(player).totalBreakPointsCount += breakPoints;
+      const breakPointsNumber: number = this.calculateBreakPoints();
+      this.getPlayerGameByPlayer(player).totalBreakPointsCount +=
+        breakPointsNumber;
     }
   }
 
