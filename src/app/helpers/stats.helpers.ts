@@ -2,14 +2,14 @@ import { IPlayerStats } from "../models/player-stats";
 
 // FUNCTIONS TO DISPLAY THE STATISTICS
 
-export function getAcesStatsPlayer(initialStats: IPlayerStats[]): {
+export function getAcesStatsPlayer(allPlayerStats: IPlayerStats[]): {
   statName: string;
   statPlayers: { displayedData: string; percentageOfTotal: number }[];
 } {
   return {
     statName: 'Aces',
-    statPlayers: initialStats.map((playerStat) => {
-      const otherStatPlayer = getOtherPlayerStat(initialStats, playerStat);
+    statPlayers: allPlayerStats.map((playerStat) => {
+      const otherStatPlayer = getOtherPlayerStat(allPlayerStats, playerStat);
       return {
         displayedData: playerStat.acesCount.toString(),
         percentageOfTotal: getPercentage(
@@ -21,14 +21,14 @@ export function getAcesStatsPlayer(initialStats: IPlayerStats[]): {
   };
 }
 
-export function getFirstServesStatsPlayer(initialStats: IPlayerStats[]): {
+export function getFirstServesStatsPlayer(allPlayerStats: IPlayerStats[]): {
   statName: string;
   statPlayers: { displayedData: string; percentageOfTotal: number }[];
 } {
   return {
     statName: '1st Serve %',
-    statPlayers: initialStats.map((playerStat) => {
-      const otherStatPlayer = getOtherPlayerStat(initialStats, playerStat);
+    statPlayers: allPlayerStats.map((playerStat) => {
+      const otherStatPlayer = getOtherPlayerStat(allPlayerStats, playerStat);
 
       return {
         displayedData: `${getPercentage(
@@ -54,14 +54,14 @@ export function getFirstServesStatsPlayer(initialStats: IPlayerStats[]): {
   };
 }
 
-export function getDoubleFaultsStatsPlayer(initialStats: IPlayerStats[]): {
+export function getDoubleFaultsStatsPlayer(allPlayerStats: IPlayerStats[]): {
   statName: string;
   statPlayers: { displayedData: string; percentageOfTotal: number }[];
 } {
   return {
     statName: 'Double Faults',
-    statPlayers: initialStats.map((playerStat) => {
-      const otherStatPlayer = getOtherPlayerStat(initialStats, playerStat);
+    statPlayers: allPlayerStats.map((playerStat) => {
+      const otherStatPlayer = getOtherPlayerStat(allPlayerStats, playerStat);
       return {
         displayedData: playerStat.doubleFaultsCount.toString(),
         percentageOfTotal: getPercentage(
@@ -73,14 +73,14 @@ export function getDoubleFaultsStatsPlayer(initialStats: IPlayerStats[]): {
   };
 }
 
-export function getWinOnFirstServesStatsPlayer(initialStats: IPlayerStats[]): {
+export function getWinOnFirstServesStatsPlayer(allPlayerStats: IPlayerStats[]): {
   statName: string;
   statPlayers: { displayedData: string; percentageOfTotal: number }[];
 } {
   return {
     statName: 'Win % on 1st Serve %',
-    statPlayers: initialStats.map((playerStat) => {
-      const otherStatPlayer = getOtherPlayerStat(initialStats, playerStat);
+    statPlayers: allPlayerStats.map((playerStat) => {
+      const otherStatPlayer = getOtherPlayerStat(allPlayerStats, playerStat);
 
       return {
         displayedData: `${getPercentage(
@@ -106,14 +106,14 @@ export function getWinOnFirstServesStatsPlayer(initialStats: IPlayerStats[]): {
   };
 }
 
-export function getWinOnSecondServesStatsPlayer(initialStats: IPlayerStats[]): {
+export function getWinOnSecondServesStatsPlayer(allPlayerStats: IPlayerStats[]): {
   statName: string;
   statPlayers: { displayedData: string; percentageOfTotal: number }[];
 } {
   return {
     statName: 'Win % on 2nd Serve %',
-    statPlayers: initialStats.map((playerStat) => {
-      const otherStatPlayer = getOtherPlayerStat(initialStats, playerStat);
+    statPlayers: allPlayerStats.map((playerStat) => {
+      const otherStatPlayer = getOtherPlayerStat(allPlayerStats, playerStat);
       const secondServesCount: number = getSecondServesCount(playerStat);
 
       return {
@@ -140,14 +140,14 @@ export function getWinOnSecondServesStatsPlayer(initialStats: IPlayerStats[]): {
   };
 }
 
-export function getPointsWonStatsPlayer(initialStats: IPlayerStats[]): {
+export function getPointsWonStatsPlayer(allPlayerStats: IPlayerStats[]): {
   statName: string;
   statPlayers: { displayedData: string; percentageOfTotal: number }[];
 } {
   return {
     statName: 'Points Won',
-    statPlayers: initialStats.map((playerStat) => {
-      const otherStatPlayer = getOtherPlayerStat(initialStats, playerStat);
+    statPlayers: allPlayerStats.map((playerStat) => {
+      const otherStatPlayer = getOtherPlayerStat(allPlayerStats, playerStat);
       return {
         displayedData: playerStat.wonPointsCount.toString(),
         percentageOfTotal: getPercentage(
