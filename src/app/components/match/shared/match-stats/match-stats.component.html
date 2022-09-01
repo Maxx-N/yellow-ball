@@ -24,4 +24,11 @@
       *ngIf="separatorsStats.includes(stat.statName)"
     ></div>
   </div>
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <div>Best of {{ currentMatch.setsNumber }} sets</div>
+    <div>
+      Final set:
+      {{ currentMatch.isFinalSetTiebreak ? "Tie-break" : "No tie-break" }}
+    </div>
+  </div>
 </div>

@@ -17,6 +17,7 @@ import { MatchStatsEnum } from 'src/app/models/enum/match-stats.enum';
 export class MatchStatsComponent implements OnInit, OnDestroy {
   statsToDisplay: IMatchStat[];
   players: IPlayer[];
+  currentMatch: IMatch;
   private currentMatchSubscription: Subscription;
   separatorsStats: MatchStatsEnum[] = [
     MatchStatsEnum.WinOnSecondServePercent,
@@ -40,6 +41,7 @@ export class MatchStatsComponent implements OnInit, OnDestroy {
   }
 
   displayStats(currentMach: IMatch): void {
+    this.currentMatch = currentMach;
     this.players = currentMach.players;
     const allPlayerStats: IPlayerStats[] = this.getPlayerStats(currentMach);
     this.statsToDisplay = [
