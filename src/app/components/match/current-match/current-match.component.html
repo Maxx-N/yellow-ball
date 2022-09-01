@@ -1,14 +1,14 @@
 <div class="current-match">
   <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="Stats">
-      <div class="tab-content">
-        <app-match-stats></app-match-stats>
-      </div>
-    </mat-tab>
     <mat-tab label="Score">
       <div fxLayout="column" fxLayoutGap="5%" class="tab-content">
         <app-score-board></app-score-board>
         <app-score-buttons></app-score-buttons>
+      </div>
+    </mat-tab>
+    <mat-tab label="Stats">
+      <div class="tab-content">
+        <app-match-stats></app-match-stats>
       </div>
     </mat-tab>
   </mat-tab-group>
