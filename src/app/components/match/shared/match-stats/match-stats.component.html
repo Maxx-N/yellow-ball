@@ -10,8 +10,18 @@
       >
     </div>
   </div>
-  <div fxLayout="row" *ngFor="let stat of statsToDisplay">
-    <span fxFlex="25%" fxLayoutAlign="center">{{ stat.statName }} </span>
-    <app-stat-bar [statPlayers]="stat.statPlayers" fxFlex="75%"></app-stat-bar>
+  <div class="separator"></div>
+  <div *ngFor="let stat of statsToDisplay">
+    <div fxLayout="row">
+      <span fxFlex="25%" fxLayoutAlign="center">{{ stat.statName }} </span>
+      <app-stat-bar
+        [statPlayers]="stat.statPlayers"
+        fxFlex="75%"
+      ></app-stat-bar>
+    </div>
+    <div
+      class="separator"
+      *ngIf="separatorsStats.includes(stat.statName)"
+    ></div>
   </div>
 </div>
