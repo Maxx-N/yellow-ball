@@ -5,6 +5,8 @@ import { IMatch } from 'src/app/models/match';
 import { IPlayer } from 'src/app/models/player';
 import { IPlayerStats } from 'src/app/models/player-stats';
 import { MatchService } from 'src/app/services/match/match.service';
+import { IMatchStat } from 'src/app/models/match-stat';
+
 import * as statHelpers from 'src/app/helpers/stats.helpers';
 
 @Component({
@@ -13,7 +15,7 @@ import * as statHelpers from 'src/app/helpers/stats.helpers';
   styleUrls: ['./match-stats.component.scss'],
 })
 export class MatchStatsComponent implements OnInit, OnDestroy {
-  statsToDisplay: any[];
+  statsToDisplay: IMatchStat[];
   players: IPlayer[];
   private currentMatchSubscription: Subscription;
 

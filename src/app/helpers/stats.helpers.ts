@@ -1,11 +1,9 @@
-import { IPlayerStats } from "../models/player-stats";
+import { IMatchStat } from '../models/match-stat';
+import { IPlayerStats } from '../models/player-stats';
 
 // FUNCTIONS TO DISPLAY THE STATISTICS
 
-export function getAcesStatsPlayer(allPlayerStats: IPlayerStats[]): {
-  statName: string;
-  statPlayers: { displayedData: string; percentageOfTotal: number }[];
-} {
+export function getAcesStatsPlayer(allPlayerStats: IPlayerStats[]): IMatchStat {
   return {
     statName: 'Aces',
     statPlayers: allPlayerStats.map((playerStat) => {
@@ -21,10 +19,9 @@ export function getAcesStatsPlayer(allPlayerStats: IPlayerStats[]): {
   };
 }
 
-export function getFirstServesStatsPlayer(allPlayerStats: IPlayerStats[]): {
-  statName: string;
-  statPlayers: { displayedData: string; percentageOfTotal: number }[];
-} {
+export function getFirstServesStatsPlayer(
+  allPlayerStats: IPlayerStats[]
+): IMatchStat {
   return {
     statName: '1st Serve %',
     statPlayers: allPlayerStats.map((playerStat) => {
@@ -54,10 +51,9 @@ export function getFirstServesStatsPlayer(allPlayerStats: IPlayerStats[]): {
   };
 }
 
-export function getDoubleFaultsStatsPlayer(allPlayerStats: IPlayerStats[]): {
-  statName: string;
-  statPlayers: { displayedData: string; percentageOfTotal: number }[];
-} {
+export function getDoubleFaultsStatsPlayer(
+  allPlayerStats: IPlayerStats[]
+): IMatchStat {
   return {
     statName: 'Double Faults',
     statPlayers: allPlayerStats.map((playerStat) => {
@@ -73,10 +69,9 @@ export function getDoubleFaultsStatsPlayer(allPlayerStats: IPlayerStats[]): {
   };
 }
 
-export function getWinOnFirstServesStatsPlayer(allPlayerStats: IPlayerStats[]): {
-  statName: string;
-  statPlayers: { displayedData: string; percentageOfTotal: number }[];
-} {
+export function getWinOnFirstServesStatsPlayer(
+  allPlayerStats: IPlayerStats[]
+): IMatchStat {
   return {
     statName: 'Win % on 1st Serve %',
     statPlayers: allPlayerStats.map((playerStat) => {
@@ -106,10 +101,9 @@ export function getWinOnFirstServesStatsPlayer(allPlayerStats: IPlayerStats[]): 
   };
 }
 
-export function getWinOnSecondServesStatsPlayer(allPlayerStats: IPlayerStats[]): {
-  statName: string;
-  statPlayers: { displayedData: string; percentageOfTotal: number }[];
-} {
+export function getWinOnSecondServesStatsPlayer(
+  allPlayerStats: IPlayerStats[]
+): IMatchStat {
   return {
     statName: 'Win % on 2nd Serve %',
     statPlayers: allPlayerStats.map((playerStat) => {
@@ -122,14 +116,8 @@ export function getWinOnSecondServesStatsPlayer(allPlayerStats: IPlayerStats[]):
           secondServesCount
         )}%`,
         percentageOfTotal: getPercentage(
-          getPercentage(
-            playerStat.wonSecondServesCount,
-            secondServesCount
-          ),
-          getPercentage(
-            playerStat.wonSecondServesCount,
-            secondServesCount
-          ) +
+          getPercentage(playerStat.wonSecondServesCount, secondServesCount),
+          getPercentage(playerStat.wonSecondServesCount, secondServesCount) +
             getPercentage(
               otherStatPlayer.wonSecondServesCount,
               getSecondServesCount(otherStatPlayer)
@@ -140,10 +128,9 @@ export function getWinOnSecondServesStatsPlayer(allPlayerStats: IPlayerStats[]):
   };
 }
 
-export function getPointsWonStatsPlayer(allPlayerStats: IPlayerStats[]): {
-  statName: string;
-  statPlayers: { displayedData: string; percentageOfTotal: number }[];
-} {
+export function getPointsWonStatsPlayer(
+  allPlayerStats: IPlayerStats[]
+): IMatchStat {
   return {
     statName: 'Points Won',
     statPlayers: allPlayerStats.map((playerStat) => {
@@ -161,17 +148,11 @@ export function getPointsWonStatsPlayer(allPlayerStats: IPlayerStats[]): {
 
 export function getReceivingPointsWonStatsPlayer(
   allPlayerStats: IPlayerStats[]
-): {
-  statName: string;
-  statPlayers: { displayedData: string; percentageOfTotal: number }[];
-} {
+): IMatchStat {
   return {
     statName: 'Receiving Points Won %',
     statPlayers: allPlayerStats.map((playerStat) => {
-      const otherPlayerStat = getOtherPlayerStat(
-        allPlayerStats,
-        playerStat
-      );
+      const otherPlayerStat = getOtherPlayerStat(allPlayerStats, playerStat);
       const receivedPointsCount: number = getReceivedPointsCount(
         allPlayerStats,
         playerStat
@@ -201,10 +182,9 @@ export function getReceivingPointsWonStatsPlayer(
   };
 }
 
-export function getWinnersStatsPlayer(initialStats: IPlayerStats[]): {
-  statName: string;
-  statPlayers: { displayedData: string; percentageOfTotal: number }[];
-} {
+export function getWinnersStatsPlayer(
+  initialStats: IPlayerStats[]
+): IMatchStat {
   return {
     statName: 'Winners',
     statPlayers: initialStats.map((playerStat) => {
@@ -220,10 +200,9 @@ export function getWinnersStatsPlayer(initialStats: IPlayerStats[]): {
   };
 }
 
-export function getForcedErrorsStatsPlayer(initialStats: IPlayerStats[]): {
-  statName: string;
-  statPlayers: { displayedData: string; percentageOfTotal: number }[];
-} {
+export function getForcedErrorsStatsPlayer(
+  initialStats: IPlayerStats[]
+): IMatchStat {
   return {
     statName: 'Forced Errors',
     statPlayers: initialStats.map((playerStat) => {
@@ -239,10 +218,9 @@ export function getForcedErrorsStatsPlayer(initialStats: IPlayerStats[]): {
   };
 }
 
-export function getUnforcedErrorsStatsPlayer(initialStats: IPlayerStats[]): {
-  statName: string;
-  statPlayers: { displayedData: string; percentageOfTotal: number }[];
-} {
+export function getUnforcedErrorsStatsPlayer(
+  initialStats: IPlayerStats[]
+): IMatchStat {
   return {
     statName: 'Unforced Errors',
     statPlayers: initialStats.map((playerStat) => {
@@ -258,10 +236,9 @@ export function getUnforcedErrorsStatsPlayer(initialStats: IPlayerStats[]): {
   };
 }
 
-export function getBreakPointsStatsPlayer(initialStats: IPlayerStats[]): {
-  statName: string;
-  statPlayers: { displayedData: string; percentageOfTotal: number }[];
-} {
+export function getBreakPointsStatsPlayer(
+  initialStats: IPlayerStats[]
+): IMatchStat {
   return {
     statName: 'Break Points',
     statPlayers: initialStats.map((playerStat) => {
@@ -280,17 +257,11 @@ export function getBreakPointsStatsPlayer(initialStats: IPlayerStats[]): {
 
 export function getBreakPointsConversionsStatsPlayer(
   allPlayerStats: IPlayerStats[]
-): {
-  statName: string;
-  statPlayers: { displayedData: string; percentageOfTotal: number }[];
-} {
+): IMatchStat {
   return {
     statName: 'Break Points Conversion %',
     statPlayers: allPlayerStats.map((playerStat) => {
-      const otherPlayerStat = getOtherPlayerStat(
-        allPlayerStats,
-        playerStat
-      );
+      const otherPlayerStat = getOtherPlayerStat(allPlayerStats, playerStat);
       return {
         displayedData: `${getPercentage(
           playerStat.breakPointConversionsCount,
