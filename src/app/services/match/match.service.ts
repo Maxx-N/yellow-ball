@@ -6,7 +6,7 @@ import { IMatch, Match } from 'src/app/models/match';
 import { IPlayer } from 'src/app/models/player';
 import { IPlayerGame } from 'src/app/models/player-game';
 import { IPlayerStats } from 'src/app/models/player-stats';
-import { PointProcess } from 'src/app/models/point-process.type';
+import { PointProcess } from 'src/app/models/type/point-process.type';
 import { PlayerService } from '../player/player.service';
 
 @Injectable({

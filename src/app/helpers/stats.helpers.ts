@@ -1,3 +1,4 @@
+import { MatchStatsEnum } from '../models/enum/match-stats.enum';
 import { IMatchStat } from '../models/match-stat';
 import { IPlayerStats } from '../models/player-stats';
 
@@ -5,7 +6,7 @@ import { IPlayerStats } from '../models/player-stats';
 
 export function getAcesStatsPlayer(allPlayerStats: IPlayerStats[]): IMatchStat {
   return {
-    statName: 'Aces',
+    statName: MatchStatsEnum.Aces,
     statPlayers: allPlayerStats.map((playerStat) => {
       const otherStatPlayer = getOtherPlayerStat(allPlayerStats, playerStat);
       return {
@@ -23,7 +24,7 @@ export function getFirstServesStatsPlayer(
   allPlayerStats: IPlayerStats[]
 ): IMatchStat {
   return {
-    statName: '1st Serve %',
+    statName: MatchStatsEnum.FirstServePercent,
     statPlayers: allPlayerStats.map((playerStat) => {
       const otherStatPlayer = getOtherPlayerStat(allPlayerStats, playerStat);
 
@@ -55,7 +56,7 @@ export function getDoubleFaultsStatsPlayer(
   allPlayerStats: IPlayerStats[]
 ): IMatchStat {
   return {
-    statName: 'Double Faults',
+    statName: MatchStatsEnum.DoubleFaults,
     statPlayers: allPlayerStats.map((playerStat) => {
       const otherStatPlayer = getOtherPlayerStat(allPlayerStats, playerStat);
       return {
@@ -73,7 +74,7 @@ export function getWinOnFirstServesStatsPlayer(
   allPlayerStats: IPlayerStats[]
 ): IMatchStat {
   return {
-    statName: 'Win % on 1st Serve %',
+    statName: MatchStatsEnum.WinOnFirstServePercent,
     statPlayers: allPlayerStats.map((playerStat) => {
       const otherStatPlayer = getOtherPlayerStat(allPlayerStats, playerStat);
 
@@ -105,7 +106,7 @@ export function getWinOnSecondServesStatsPlayer(
   allPlayerStats: IPlayerStats[]
 ): IMatchStat {
   return {
-    statName: 'Win % on 2nd Serve %',
+    statName: MatchStatsEnum.WinOnSecondServePercent,
     statPlayers: allPlayerStats.map((playerStat) => {
       const otherStatPlayer = getOtherPlayerStat(allPlayerStats, playerStat);
       const secondServesCount: number = getSecondServesCount(playerStat);
@@ -132,7 +133,7 @@ export function getPointsWonStatsPlayer(
   allPlayerStats: IPlayerStats[]
 ): IMatchStat {
   return {
-    statName: 'Points Won',
+    statName: MatchStatsEnum.PointsWon,
     statPlayers: allPlayerStats.map((playerStat) => {
       const otherStatPlayer = getOtherPlayerStat(allPlayerStats, playerStat);
       return {
@@ -150,7 +151,7 @@ export function getReceivingPointsWonStatsPlayer(
   allPlayerStats: IPlayerStats[]
 ): IMatchStat {
   return {
-    statName: 'Receiving Points Won %',
+    statName: MatchStatsEnum.ReceivingPointsWonPercent,
     statPlayers: allPlayerStats.map((playerStat) => {
       const otherPlayerStat = getOtherPlayerStat(allPlayerStats, playerStat);
       const receivedPointsCount: number = getReceivedPointsCount(
@@ -186,7 +187,7 @@ export function getWinnersStatsPlayer(
   initialStats: IPlayerStats[]
 ): IMatchStat {
   return {
-    statName: 'Winners',
+    statName: MatchStatsEnum.Winners,
     statPlayers: initialStats.map((playerStat) => {
       const otherStatPlayer = getOtherPlayerStat(initialStats, playerStat);
       return {
@@ -204,7 +205,7 @@ export function getForcedErrorsStatsPlayer(
   initialStats: IPlayerStats[]
 ): IMatchStat {
   return {
-    statName: 'Forced Errors',
+    statName: MatchStatsEnum.ForcedErrors,
     statPlayers: initialStats.map((playerStat) => {
       const otherStatPlayer = getOtherPlayerStat(initialStats, playerStat);
       return {
@@ -222,7 +223,7 @@ export function getUnforcedErrorsStatsPlayer(
   initialStats: IPlayerStats[]
 ): IMatchStat {
   return {
-    statName: 'Unforced Errors',
+    statName: MatchStatsEnum.UnforcedErrors,
     statPlayers: initialStats.map((playerStat) => {
       const otherStatPlayer = getOtherPlayerStat(initialStats, playerStat);
       return {
@@ -240,7 +241,7 @@ export function getBreakPointsStatsPlayer(
   initialStats: IPlayerStats[]
 ): IMatchStat {
   return {
-    statName: 'Break Points',
+    statName: MatchStatsEnum.BreakPoints,
     statPlayers: initialStats.map((playerStat) => {
       const otherStatPlayer = getOtherPlayerStat(initialStats, playerStat);
       return {
@@ -259,7 +260,7 @@ export function getBreakPointsConversionsStatsPlayer(
   allPlayerStats: IPlayerStats[]
 ): IMatchStat {
   return {
-    statName: 'Break Points Conversion %',
+    statName: MatchStatsEnum.BreakPointsConversionsPercent,
     statPlayers: allPlayerStats.map((playerStat) => {
       const otherPlayerStat = getOtherPlayerStat(allPlayerStats, playerStat);
       return {

@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 
 import { IMatch } from 'src/app/models/match';
 import { IPlayer } from 'src/app/models/player';
-import { PointProcess } from 'src/app/models/point-process.type';
+import { PointProcess } from 'src/app/models/type/point-process.type';
 import { MatchService } from 'src/app/services/match/match.service';
 
 @Component({
