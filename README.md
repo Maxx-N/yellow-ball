@@ -1,10 +1,18 @@
 # YellowBall
 
+This application allows you to count points in tennis and to calculate the players' statistics.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
 
-## Development server
+## INSTRUCTIONS TO LOCALLY RUN THE PROJECT
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Open your terminal and follow these instructions:
+- Navigate to the directory that will contain the project: `cd [PATH-TO-YOUR DIRECTORY]` ;
+- Clone the project: `git clone https://github.com/Maxx-N/mnorval-quiz.git` ;
+- Navigate to the project: `cd mnorval-quiz` ;
+- Install dependencies: `npm install` ;
+- Run the project: `ng serve`.
+- Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
