@@ -1,4 +1,4 @@
-# YellowBall
+# The Yellow Ball
 
 This application allows you to count points in tennis and to calculate the players' statistics.
 
