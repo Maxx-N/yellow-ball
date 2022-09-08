@@ -8,8 +8,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Open your terminal and follow these instructions:
 - Navigate to the directory that will contain the project: `cd [PATH-TO-YOUR DIRECTORY]` ;
-- Clone the project: `git clone https://github.com/Maxx-N/mnorval-quiz.git` ;
-- Navigate to the project: `cd mnorval-quiz` ;
+- Clone the project: `git clone https://github.com/Maxx-N/yellow-ball.git` ;
+- Navigate to the project: `cd yellow-ball` ;
 - Install dependencies: `npm install` ;
 - Run the project: `ng serve`.
 - Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
